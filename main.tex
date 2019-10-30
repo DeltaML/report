@@ -43,7 +43,7 @@ chapterinoneline, % Uncomment to place the chapter title next to the number on o
 
 \usepackage[utf8]{inputenc} % Required for inputting international characters
 \usepackage[T1]{fontenc} % Output font encoding for international characters
-
+\usepackage{float}
 \usepackage{mathpazo} % Use the Palatino font by default
 
 \usepackage[backend=biber,style=numeric,natbib=true,sorting=none]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
@@ -204,7 +204,7 @@ Teniendo en cuenta este contexto, se eligió la temática de este trabajo con la
 Actualmente existen varios proyectos en desarrollo y técnicas en investigación que intentan atacar la misma problemática de diferentes maneras.
 
 \begin{itemize}
-\item \textbf{Federated Learning: \cite{fedlearn2}} El aprendizaje federado es un método de aprendizaje automático en el que el objetivo es entrenar a un modelo centralizado de alta calidad con datos de entrenamiento distribuidos entre un gran número de clientes, cada uno con conexiones de red poco confiables y relativamente lentas. Los algoritmos de aprendizaje para esta configuración funcionan de la siguiente manera: en cada iteración, cada cliente calcula de forma independiente una actualización del modelo actual en función de sus datos locales y comunica esta actualización a un servidor central, donde las actualizaciones del lado del cliente se agregan para calcular una nueva versión global del modelo. Los clientes típicos en este entorno son los teléfonos móviles, y la eficiencia de la comunicación es de suma importancia. Actualmente, Google está investigando \cite{fedlearn1} \cite{fedlearn3} \cite{fedlearn4} \cite{fedlearn5} \cite{fedlearn6} esté método de aprendizaje automático y publicó varios papers al respecto, analizando mejoras y aplicaciones para dispositivos móviles (tales como predicción de palabras para GBoard).
+\item \textbf{Federated Learning: \cite{fedlearn2}} El aprendizaje federado es un método de aprendizaje automático en el que el objetivo es entrenar a un modelo centralizado de alta calidad con datos de entrenamiento distribuidos entre un gran número de clientes, cada uno con conexiones de red poco confiables y relativamente lentas. Los algoritmos de aprendizaje para esta configuración funcionan de la siguiente manera: en cada iteración, cada cliente calcula de forma independiente una actualización del modelo actual en función de sus datos locales y comunica esta actualización a un servidor central, donde las actualizaciones enviadas por los clientes se agregan para calcular una nueva versión global del modelo. Los clientes típicos en este entorno son los teléfonos móviles, y la eficiencia de la comunicación es de suma importancia. Actualmente, Google está investigando \cite{fedlearn1} \cite{fedlearn3} \cite{fedlearn4} \cite{fedlearn5} \cite{fedlearn6} esté método de aprendizaje automático y publicó varios papers al respecto, analizando mejoras y aplicaciones para dispositivos móviles (tales como predicción de palabras para GBoard).
 
 \item \textbf{OpenMined: \cite{om}} Marketplace descentralizado de modelos de machine learning. Opera sobre la red de Ethereum. Utiliza Federated Learning para el entrenamiento de los modelos predictivos sobre Tensorflow y Pytorch ya que permiten entrenamiento desde clientes web. Modelos encriptados con homomorphic encryption \cite{homenc} para una transmisión de datos segura. 
 Smart contracts regulan el marketplace y pagan a quienes gastaron poder de computo entrenando un proporcional de acuerdo a cuanto aportaron a la mejora del modelo global.
@@ -233,7 +233,7 @@ Ocean Protocol es un protocolo de intercambio de datos descentralizado, que perm
 El presente trabajo consta de los siguientes objetivos principales:
 
 \begin{itemize}
-\item Desarrollar un marketplace de modelos de ML que permita a usuarios dueños de estos modelos entrenarlos de manera descentralizada sin necesidad de violar la privacidad de los usuarios dueños de los datos que serán utilizados para dicho entrenamiento.  
+\item Desarrollar un marketplace de modelos de ML que permita a usuarios dueños de estos modelos entrenarlos de manera descentralizada preservando, al mismo tiempo, la privacidad de los datos que serán utilizados para dicho entrenamiento.
 \item Desarrollar una forma de recompensar a los usuarios que provean datos y poder de computo para el entrenamiento de los modelos.
 \item Desarrollar un framework de Federated Learning de código libre para generar un aporte a la comunidad.
 \item Desarrollar un caso de uso de un modelo que requiera entrenamiento para hacer prueba del sistema desarrollado durante este trabajo.
@@ -253,17 +253,56 @@ Para ejemplificar, sean $P_{1},...,P_{n}$ diferentes partes dentro de un sistema
 \item Privacidad (Privacy): $y$ es la \'unica nueva informaci\'on que es publicada. Es decir, sus inputs siguen siendo secretos.
 \end{itemize}
 
-Existen muchos protocolos y m\'etodos para construir un sistema que funcione con SMPC
+Existen muchos protocolos y m\'etodos para construir un sistema que asegure SMPC. Algunos de estos son:
+
+\begin{itemize}
+\item Protocolos basados en Homomorphic Encryption
+\item Protocolos basados en zero proofs.
+\end{itemize}
+
+\'Este trabajo se enfoca en los primeros.
 
 \subsection{Homomorphic Encryption}
+Método de encriptación asimétrico que permite realizar cálculos directamente sobre datos encriptados sin requerir acceso a la clave privada. El resultado de tal cálculo permanece en forma encriptada, y puede ser revelado posteriormente por el propietario de la clave.
+
+\begin{figure}[H]
+  	\centering
+	\includegraphics[scale=0.5]{imgs/he.png}
+	\caption{\cite{he} Ejemplos de operaciones matemáticas realizadas sobre números encriptados por medio de Homomorphic Encryption.}
+\end{figure}
 
 
 \section{Differential Privacy}
+La privacidad diferencial \cite{diffpriv4} no es, en sí misma, una tecnología. Es una propiedad que describe algunos sistemas: una garantía matemática de que no se violará la privacidad uno o mas individuos si sus datos se utilizan para un determinado análisis. Un sistema que es diferencialmente privado permite realizar análisis sobre estos datos sensibles mientras los protege detrás de un velo de incertidumbre. \\
+Otra definición \cite{diffpriv3} lo describe una promesa hecha por aquellos individuos o entes que recaban o curan datos, a los due\~nos originales de los mismos. Dicha promesa expresa que la privacidad del dueño original no ser\'a afectada de forma adversa al permitir que sus datos sean usados en alg\'un estudio o an\'alisis, no importa qu\'e otros estudios, sets de datos o fuentes de informaci\'on haya disponibles.
+
+\subsection{Local Differential Privacy}
+Con la privacidad local, no hay una parte confiable; cada persona es responsable de agregar ruido a sus propios datos antes de compartirlos. Cada persona es un curador a cargo de su propia base de datos privada. Por lo general, un sistema privado local involucra a una parte no confiable (el agregador) que recopila datos de un gran grupo de personas a la vez.
+
+\subsection{Global Differential Privacy}
+Los sistemas privados a globales son generalmente más precisos: todo el análisis se realiza en datos "limpios", y solo se necesita agregar una pequeña cantidad de ruido al final del proceso. Sin embargo, para que funcione la privacidad global, todos los involucrados deben confiar en el curador. \\
+La privacidad local es un modelo más conservador y seguro. Bajo la privacidad local, cada dato individual es extremadamente ruidoso y no es muy útil por sí solo. Sin embargo, en números muy grandes, el ruido de los datos se puede filtrar, y los agregadores que recopilan suficientes datos privados locales pueden hacer análisis útiles sobre las tendencias en todo el conjunto de datos.
+
+\begin{figure}[H]
+  	\centering
+	\includegraphics[scale=0.7]{imgs/diff-privacy.png}
+	\caption{Local Differential Privacy vs. Global Differential Privacy}
+\end{figure}
+
+
 
 \section{Trustless}
 
-\section{Federated Learning}
 
+
+\section{Federated Learning}
+El aprendizaje federado es un método de aprendizaje automático en el que el objetivo es entrenar a un modelo centralizado de alta calidad con datos de entrenamiento distribuidos entre un gran número de clientes, cada uno con conexiones de red poco confiables y relativamente lentas. Los algoritmos de aprendizaje para esta configuración funcionan de la siguiente manera: en cada iteración, cada cliente calcula de forma independiente una actualización del modelo actual en función de sus datos locales y comunica esta actualización a un servidor central, donde las actualizaciones enviadas por los clientes se agregan para calcular una nueva versión global del modelo.
+
+\begin{figure}[H]
+  	\centering
+	\includegraphics[scale=0.42]{imgs/fl_flow.png}
+	\caption{Esquema de entrenamiento de un modelo usando Federated Learning.}
+\end{figure}
 
 
 \section{Módulos}
@@ -271,7 +310,7 @@ Existen muchos protocolos y m\'etodos para construir un sistema que funcione con
 \subsection*{Interacción entre modulos}
 A continuación mostramos un diagrama del sistema describiendo las interacciones entre los diferentes módulos. \\
 
-\begin{figure}[h!]
+\begin{figure}[H]
   	\centering
 	\includegraphics[scale=0.5]{imgs/modules-diagram.png}
 	\caption{Interacciones de los módulos del sistema}
@@ -299,38 +338,138 @@ Este cliente deberá permitir que los usuarios decidan cuales de sus datos quier
 
 \newpage
 
+\chapter{Implementación}
+
 \section{Participantes}
 
-\subsection*{Interacción entre participantes}
+\subsection*{DeltaML: Interacción entre participantes}
 En la figura \ref{fig:interact} se observa se observa un diagrama del sistema y describimos cada una de las interacciones entre los diferentes participantes.
 
 \begin{figure}[h!]
   	\centering
-	\includegraphics[scale=0.3]{imgs/proposal-diagram.png}
-	\caption{Interacciones de los participantes del sistema}
+	\includegraphics[scale=0.072]{imgs/deltaml_flow.png}
+	\caption{Interacciones de los módulos del sistema}
 	\label{fig:interact}
 \end{figure}
 
 
-\subsection*{\textbf{D:} Data Owner/Trainer}
+\subsection*{Data Owner}
 \justify
-El Data Owner/Trainer es aquel que ejecuta en su computador/dispositivo el cliente web/mobile por medio del cual puede decidir en qué solicitudes de entrenamiento participar. Tiene en su poder uno o mas datasets. \\
+El Data Owner es aquel que ejecuta en su computador el cliente web por medio del cual puede decidir en qué solicitudes de entrenamiento participar. Tiene en su poder uno o mas datasets. \\
 En su rol de de Data Owner publica al smart contract las caracteristicas de los datasets que posee (cantidad de registros, columnas, tipo de los datos de cada columna, cantidad de nulos por columna, etc) y recompensa monetaria mínima que está dispuesto a percibir por el entrenamiento de cada dataset.
-En su rol de Trainer, consulta periodicamente el estado del smart contract para verificar si hay nuevas solicitudes de entrenamiento que concuerden con las caracteristicas de su dataset y con la recompensa mínima que está dispuesto a percibir. De existir tal solicitud, el Trainer obtiene del smart contract el hash correspondiente al directorio de IPFS que tiene el modelo inicial que debe ser mejorado a través del entrenamiento con su dataset local. Al terminar el entrenamiento, notifica al smart contract y almacena las mejoras al modelo en el directorio en IPFS.
 
-\subsection*{\textbf{A:} Customer}
+\subsubsection*{Capacidades}
+\begin{itemize}
+\item Elige participar en el entrenamiento de un modelo.
+\item Aporta sus datos para, de manera local y sin poder ver el modelo:
+\item Entrenar el modelo solicitado por el Model Buyer.
+\item Calcular diferencia entre predicciones del modelo y lo esperado.
+\end{itemize}
+
+\subsubsection*{Limitaciones}
+No puede:
+\begin{itemize}
+\item Ver los parámetros del modelo en entrenamiento, trabaja con el modelo encriptado.
+\item Alterar el cálculo de las métricas de calidad o su contribución para ganar más dinero por el entrenamiento. 
+\end{itemize}
+
+\subsubsection*{Roles}
+\begin{itemize}
+\item \textbf{Trainer:} Usa sus datos privados y su poder de cómputo para entrenar modelos.
+\item \textbf{Validator:} Usa sus datos privados y su poder de cómputo para  calcular diferencias entre lo esperado y las predicciones.
+\end{itemize}
+
+Los Data Owners se dividen en Trainers y Validators en proporciones de 70\% y 30\% respectivamente tal como se haría con un dataset para su entrenamiento y evaluación. Queda para futuros desarrollos hacer esta división emulando un K-Fold Cross-validation.
+
+
+\subsection*{Model Buyer}
 \justify
-El Customer interactua con el sistema por medio del marketplace, publicando una solicitud de entrenamiento para un cierto modelo con ciertas caracteristicas.
-Al crear la solicitud envía un modelo inicial a IPFS, y obtiene el hash que representa dicho recurso en ese sistema de archivos. Luego envía, a un smart contract desplegado en la red de ethereum, el hash obtenido previamente, el monto que destina al proceso de mejorar el modelo inicial, las metricas de calidad del modelo inicial y las carácteristicas que debe cumplir el dataset para entrenar el modelo mejorado.
+El Model Buyer interactua con el sistema por medio del marketplace, publicando una solicitud de entrenamiento para un cierto modelo con ciertas caracteristicas.
+Al crear la solicitud envía un modelo inicial encriptado con Homomorphic Encryption al Federated Aggregator junto con  las carácteristicas que debe cumplir el dataset para entrenar el modelo. 
+Al mismo tiempo, inicializa en un smart contract desplegado en la red Ethereum, la transacción del correspondiente al entrenamiento del modelo y envía el monto que destina al proceso de mejorar el modelo inicial, las metricas de calidad del modelo inicial y los participantes involucrados.
 
-\subsection*{\textbf{E:} Federated Aggregator}
+\subsubsection*{Capacidades}
+\begin{itemize}
+\item Solicita el entrenamiento de un modelo.
+\item Paga por el modelo entrenado.
+\item Desencripta el modelo una vez entrenado.
+\item Valida métricas de calidad del modelo.
+\end{itemize}
+
+\subsubsection*{Limitaciones}
+No puede:
+\begin{itemize}
+\item Ni ver ni robar los datos con los que se entrenan los modelos.
+\item Alterar las métricas de calidad del modelo.
+\item Realizar fraude en el pago por el modelo.
+\end{itemize}
+
+
+
+\subsection*{Federated Aggregator}
 Este participante del sistema verifica periodicamente la existencia de nuevas solicitudes de entrenamiento de modelos consultando al smart contract. De encontrar una nueva solicitud, obtiene del smart contract el hash que corresponde al directorio donde se almacenan los recursos referentes a esta solicitud en IPFS, y comienza a verificar si hay nuevas mejoras publicadas por los Trainers. De existir nuevas mejoras, el Federated Aggregator realiza un promedio de las mejoras al modelo y el modelo inicial, luego calcula la métrica de calidad del modelo nuevamente y la envia al smart contract.
 
-\subsection*{\textbf{C:} Smart Contract}
-El smart contract es el encargado de regular el mercado, recibe solicitudes y las vincula con los Data Owners que las acepten enviándoles, también, el hash correspondiente al directorio en IPFS donde se encuentran los recursos relacionados a dicha solicitud. Al mismo tiempo, también valida las condiciones de finalización para el entrenamiento (valor umbral de calidad del modelo alcanzado, tiempo de vida de la solicitud, extinción de los fondos dedicados al entrenamiento).
-Se define aquí tambien, la recompensa mínima que recibirán todos los participantes del entrenamiento (monto fijo) y el monto variable de acuerdo a la contribución a la mejora de la calidad del modelo.
+\subsubsection*{Capacidades}
+\begin{itemize}
+\item Asigna roles a los Data Owners que participan en un entrenamiento.
+\item Agrega de manera segura las actualiz. al modelo provenientes de cada Data Owner.
+\item Envía el modelo actualiz. encriptado a los Data Owners para que continúen el entrenamiento.
+\item Calcula las métricas de calidad del modelo.
+\end{itemize}
+
+\subsubsection*{Limitaciones}
+No puede:
+\begin{itemize}
+\item Robar el modelo en entrenamiento, está encriptado.
+\item Alterar el cálculo de las métricas de calidad ni las contribuciones de cada Data Owner (las valida el Model Buyer).
+\end{itemize}
 
 
+\subsection*{Contract}
+El smart contract es el encargado de regular el mercado, recibe solicitudes provenientes del Model Buyer y las vincula con los Data Owners que las acepten y al modelo en entrenamiento. Al mismo tiempo, permite al Federated Aggregator guardar métricas métricas de calidad del modelo y que sean validadas por el Model Buyer.
+Se define aquí tambien, la recompensa mínima que recibirán todos los participantes del entrenamiento (monto fijo) y el monto variable de acuerdo a la contribución a la mejora de la calidad del modelo. \\
+El carácter descentralizado del smart contract permite que los cálculos y pagos se realicen sin necesitar de una tercera parte en la que confiar para esta parte del proceso.
+
+
+\subsubsection*{Capacidades}
+\begin{itemize}
+\item Restringe el acceso a sus funcionalidades según el rol del participante.
+\item Calcula contribuciones de cada Data Owner.
+\item Paga a cada participante por su trabajo.
+\item Devuelve dinero al Model Buyer si tuviera que hacerlo.
+\item Valida métricas de calidad del modelo.
+\end{itemize}
+
+\subsubsection*{Limitaciones}
+No puede:
+\begin{itemize}
+\item Robar el modelo en entrenamiento (no tiene visión del mismo).
+\item Alterar el cálculo de las métricas de calidad.
+\item Alterar el cálculo de las contribuciones.
+\end{itemize}
+
+\section{Protocolos}
+
+\subsection*{Obtención de recursos para entrenamiento}
+\begin{figure}[H]
+  	\centering
+	\includegraphics[scale=0.1]{imgs/flujo_fase1.png}
+	\caption{Esquema de entrenamiento de un modelo usando Federated Learning.}
+\end{figure}
+
+\subsection*{Entrenamiento del modelo encriptado}
+\begin{figure}[H]
+  	\centering
+	\includegraphics[scale=0.1]{imgs/flujo_fase2.png}
+	\caption{Esquema de entrenamiento de un modelo usando Federated Learning.}
+\end{figure}
+
+\subsection*{Calculo de métricas seguro}
+\begin{figure}[H]
+  	\centering
+	\includegraphics[scale=0.1]{imgs/flujo_valid.png}
+	\caption{Esquema de entrenamiento de un modelo usando Federated Learning.}
+\end{figure}
 
 
 %----------------------------------------------------------------------------------------
@@ -347,7 +486,7 @@ Se define aquí tambien, la recompensa mínima que recibirán todos los particip
 \begin{itemize}
 \item \textbf{Machine Learning}: (en castellano Aprendizaje Automático) es la rama del área de la inteligencia artificial centrada en el estudio y construcción de sistemas capaces de aprender de los datos, identificar patrones y realizar decisiones con mínima intervención humana. 
 \item \textbf{Deep Learning}: (o Aprendizaje Profundo) es un subconjunto del área de Machine Learning que intenta generar modelos que constan de arquitecturas compuestas de transformaciones no lineales múltiples. Se utilizan, en general, para resolver problemas de gran complejidad computacional por medio de aproximaciones logradas a través del entrenamiento de un modelo con las caracteristicas antes nombradas a partir de una cantidad enorme de datos.
-\item \textbf{Blockchain}: o DLT (Descentralized Ledger Technology), es una tecnología que consta de un registro contable distribuido en una red de nodos. Las características principales de Blockchain son: inmutabilidad de la historia de las transacciones realizadas, resistencia a fraudes utilizando algoritmos de consenso entre los nodos de la red, transparencia (todos los nodos pueden el historial de transacciones), resistente a ataques mediante la descentralización de los datos y el poder de computo combinado de todos los nodos participantes, pseudo-anonimidad de los participantes de la red, se identifican con una clave que lleva el nombre de wallet, pero a  priori no hay forma de relacionar dicha wallet con su dueño.
+\item \textbf{Blockchain}: o DLT (Descentralized Ledger Technology), es una tecnología que consta de un registro contable distribuido en una red de nodos. Las características principales de Blockchain son: inmutabilidad de la historia de las transacciones realizadas, resistencia a fraudes utilizando algoritmos de consenso entre los nodos de la red, transparencia (todos los nodos pueden ver el historial de transacciones), resistente a ataques (mediante la descentralización de los datos y el poder de computo combinado de todos los nodos participantes), y pseudo-anonimidad de los participantes de la red (se identifican con una clave que lleva el nombre de wallet, pero a  priori no hay forma de relacionar dicha wallet con su dueño).
 \item \textbf{Smart Contract}: aplicaciones que se ejecutan sobre la red de nodos de una blockchain exactamente como fueron programadas sin ninguna posibilidad de downtime, censura, fraude o interferencia de una tercera parte.
 \item \textbf{Differential Privacy}: es una técnica estadística que trata de maximizar la exactitud de la información que se desea obtener de una base de datos, mientras se minimiza el impacto  en la privacidad de las personas cuyos datos se encuentran en dicha base.
 \item \textbf{Multi-party computation}: es una rama de la criptografía, la cual tiene por objetivo la creación de métodos para que diferentes partes puedan en conjunto realizar el computo de una función sobre sus datos a la vez que mantienen la privacidad de ellos.
