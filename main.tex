@@ -304,6 +304,14 @@ El aprendizaje federado es un método de aprendizaje automático en el que el ob
 	\caption{Esquema de entrenamiento de un modelo usando Federated Learning.}
 \end{figure}
 
+\subsection*{Caracteristicas}
+\begin{itemize}
+\item Los clientes eligen si participan en el entrenamiento. 
+\item El número de clientes disponible puede ser grande y variable.
+\item Incorpora preservación de la privacidad por medio de entrenamientos distribuidos.
+\item Los datos en general no están balanceados, ya que son específicos del cliente y auto-correlacionados.
+\end{itemize}
+
 
 \section{Módulos}
 
@@ -470,6 +478,25 @@ No puede:
 	\includegraphics[scale=0.1]{imgs/flujo_valid.png}
 	\caption{Esquema de entrenamiento de un modelo usando Federated Learning.}
 \end{figure}
+
+
+\section{Resultados}
+
+\section{Trabajo futuro}
+Dada la longitud del alcance del presente trabajo, algunas tareas fueron relegadas al no ser esenciales al objetivo planteado. Se detallan a continuación, algunos de los puntos que contemplamos como trabajo futuro para seguir profundizando sobre la temática de machine learning seguro y privado, o para continuar con el desarrollo de DeltaML son: 
+
+Refactorizar el esquema para extraer un framework de Federated Leaning seguro y extensible tal que:
+\begin{itemize}
+\item El método de comunicación entre los participantes sea configurable (local, http, etc)
+\item El mecanismo de SMPC sea extensible y se pueda cambiar por otro de manera simple.
+\item Permita agregar nuevos tipos de modelo (regresión logística, redes neuronales, etc).
+\item Pueda ser usado con varias bibliotecas de Machine Learning (como Scikit-learn, Spark ML o incluso Tensorflow).
+\item Investigar otros métodos de SMPC y Homomorphic Encryption, y comparar como impacta uno u otro en la performance durante el entrenamiento de un modelo.
+\item Migrar Data Owners a aplicaciones mobile.
+\item Experimentar con otros frameworks (nuevos) de Federated Learning privado, tales como: PySift de OpenMined, TF-Encrypted de DropoutLabs, CrypTFlow de Microsoft.
+\end{itemize}
+ 
+\section{Conclusiones finales}
 
 
 %----------------------------------------------------------------------------------------
