@@ -240,7 +240,69 @@ El presente trabajo consta de los siguientes objetivos principales:
 \end{itemize}
 
 
-\chapter{Car\'acteristicas del trabajo}
+\chapter{Introducción teórica}
+
+\section{Machine Learning}
+Machine Learning o (Aprendizaje automático) es un subconjunto de la inteligencia artificial que se centra en el estudio y construcción de sistemas capaces de aprender de los datos, identificar patrones y realizar decisiones con mínima intervención humana.
+
+Una definición más técnica podría ser: 
+
+``\textit{Un programa aprende de la experiencia (\textbf{E}) con respecto a alguna tarea (\textbf{T}) y medida de desempeño (\textbf{P}), si su desempeño en dichas tareas mejora con la experiencia.}''
+
+\textbf{Ejemplo:} un programa que aprende a jugar al ajedrez.
+\begin{itemize}
+\item \textbf{E} = la experiencia de jugar muchas partidas de ajedrez.
+\item \textbf{T} = la tarea de jugar una partida de ajedrez.
+\item \textbf{P} = la probabilidad de que el programa gane la próxima partida.
+\end{itemize}
+
+El programa que aprende de la experiencia, en el ámbito del aprendizaje automático es llamado \textbf{modelo}.
+
+
+\subsection{Datasets}
+Contiene las muestras (experiencias) necesarias para el proceso de aprendizaje y evaluación del modelo.
+\textbf{Ejemplo:} un programa que aprende a jugar al ajedrez.
+\begin{itemize}
+\item \textbf{Set de entrenamiento:} muestras usadas para entrenar modelo.
+\item \textbf{Set de test:} muestras para evaluar cuán bien aprendió el modelo.
+\end{itemize}
+
+Si bien existen otros esquemas para separar el dataset y evaluar el modelo, se eligió éste al ser simple para no extender de más el alcance del trabajo.
+
+\subsection{Entrenamiento y predicción}
+
+Un modelo de aprendizaje automatico aprende de las experiencias o muestras dadas en forma de datos dentro de un \textbf{Dataset}. Dicho proceso se dá como se describe a continación:
+
+\subsubsection*{Entrenamiento}
+\begin{itemize}
+\item Se obtiene o genera el \textbf{dataset} (esto puede ser simple o puede contemplar la combinación de varias fuentes de datos).
+\item Se realiza un \textbf{pre-proceso de los datos} contenidos en el dataset, de manera que puedan ser comprendidos y usados por el modelo en las etapas siguientes. Como ejemplo, los datos categoricos se codifican en valores numericos enteros o en variables dummy dependiendo de si sus valores tienen algun orden. 
+\item Se divide el dataset en set de entrenamiento y set de test.
+\item Se divide el set de entrenamiento en set de entrenamiento y set de validación.
+\item Se \textbf{entrena el modelo} usando el set de entrenamiento.
+\item Se \textbf{evalua el modelo} usando el set de validación.
+\item Si la métrica de evaluación del modelo muestra que el modelo no cumple con la calidad requerida, se alteran los hiperparámetros del modelo y se lo vuelve a entrenar. 
+\item Una vez que el modelo cumple con la calidad requerida segun las evaluaciones hechas contra el set de validación, se evalua el modelo contra el set de test y la métrica de calidad del modelo aquí obtenida es la que expresa que tan bien ha aprendido durante el proceso.
+\item  Finalmente se obtiene el \textbf{modelo entrenado}.
+\end{itemize}
+
+
+\subsubsection*{Predicción}
+\begin{itemize}
+\item Se quiere realizar una prección a partir de \textbf{una nueva instancia de dato} que es del mismo tipo que los usados para entrenar y evaluar el modelo (tiene los mismos features o atributos).
+\item Se realiza un \textbf{pre-proceso del dato}, el mismo que se realizó para los datos de entrenamiento.
+\item Se procede a darle esta nueva instancia de dato como entrada al \textbf{modelo}. La salida es la predicción hecha por el modelo entrenado.
+\end{itemize}
+
+\begin{figure}[H]
+  	\centering
+	\includegraphics[scale=0.15]{imgs/ml-processes.png}
+	\caption{Entrenamiento, evaluación y uso de un modelo de aprendizaje automático.}
+\end{figure}
+
+\subsection{Aprendizaje supervisado}
+En el campo del aprendizaje automático, a los algoritmos que requieren de un conjunto de entrenamiento con datos etiquetados se denominan supervisados. Analizando estos ejemplos de entrenamiento, el sistema infiere funciones que pueden ser usadas para aplicarlas a nueva información.
+Por el contrario, a los algoritmos que no son entrenados se los denomina no supervisados. Este grupo utiliza técnicas para encontrar patrones o grupos ocultos en los datos a analizar.
 
 
 \section{SMPC (Secure Multi-party Computation)}
@@ -260,17 +322,16 @@ Existen muchos protocolos y m\'etodos para construir un sistema que asegure SMPC
 \item Protocolos basados en zero proofs.
 \end{itemize}
 
-\'Este trabajo se enfoca en los primeros.
+\section{Cifrado Asimétrico}
+Es un método criptográfico que usa un par de claves para el envío de mensajes de manera segura. Ambas claves pertenecen a la persona que recibirá el dicho mensaje.
+\begin{itemize}
+\item \textbf{Clave pública:} que puede ser distribuida abiertamente
+\item \textbf{Clave privada:} que solo conoce el propietario.
+\end{itemize}
+Cualquiera puede cifrar un mensaje usando la clave pública, pero ese mensaje cifrado sólo puede descifrarse con la clave privada.
+Las claves se generan por medio de algoritmos basados en problemas matemáticos que no pueden ser resueltos por fuerza bruta en un tiempo razonable. 
 
-\subsection{Homomorphic Encryption}
-Método de encriptación asimétrico que permite realizar cálculos directamente sobre datos encriptados sin requerir acceso a la clave privada. El resultado de tal cálculo permanece en forma encriptada, y puede ser revelado posteriormente por el propietario de la clave.
-
-\begin{figure}[H]
-  	\centering
-	\includegraphics[scale=0.5]{imgs/he.png}
-	\caption{\cite{he} Ejemplos de operaciones matemáticas realizadas sobre números encriptados por medio de Homomorphic Encryption.}
-\end{figure}
-
+\pagebreak
 
 \section{Differential Privacy}
 La privacidad diferencial \cite{diffpriv4} no es, en sí misma, una tecnología. Es una propiedad que describe algunos sistemas: una garantía matemática de que no se violará la privacidad uno o mas individuos si sus datos se utilizan para un determinado análisis. Un sistema que es diferencialmente privado permite realizar análisis sobre estos datos sensibles mientras los protege detrás de un velo de incertidumbre. \\
@@ -291,9 +352,49 @@ La privacidad local es un modelo más conservador y seguro. Bajo la privacidad l
 
 
 
-\section{Trustless}
+\chapter{Fundamentos y herramientas}
+
+\section{Modelo de Regresión Lineal}
+Método estadístico que, en aprendizaje automático, se utiliza para predecir un valor objetivo (\textbf{y}) en base a variables independientes (los features o atributos, \textbf{X}).
+
+$ x_{j}^{(i)} $ = el valor del feature j en la i-ésima muestra de entrenamiento \\
+$ x^{(i)} $ = los features de la i-ésima muestra de entrenamiento \\
+$ m $ = la cantidad de muestras de entrenamiento \\
+$ n $ = el número de features 
+
+El modelo de regresión tiene la forma expresada en la ecuación \ref{eq:1}
+
+\begin{equation}
+h_{w}(x) = w_{o} + w_{1}x_{1} + w_{2}x_{2} + w_{3}x_{3} + ... + w_{n}x_{n} \label{eq:1}
+\end{equation}
+
+\subsection*{Función de costo}
+Expresa qué tanto error está cometiendo el modelo actualmente al predecir para cada una de las muestras del dataset.
+
+\textbf{Mean Squared Error} (Error cuadrático medio)
+\begin{equation}
+MSE = \frac{1}{m} \sum_{i=1}^{m} (h(x^{(i)}) - y^{(i)})^2
+\end{equation} 
+
+\subsection*{Gradient Descent}
+Algoritmo de optimización iterativo para hallar el mínimo de una función. Se utiliza, en el contexto del entrenamiento de un modelo de regresión lineal, para hallar los pesos \textbf{w} (parámetros del modelo de regresión lineal).
+
+Repetir hasta que converja:
+\begin{equation}
+w_{j} = w_{j} - (\frac{\alpha}{m} \sum_{i=1}^{m} (h_{w}(x)^{(i)} - y^{(i)}) \cdot x_{j}^{(i)} para j := 0...n
+\end{equation}
 
 
+\pagebreak
+
+\section{Homomorphic Encryption}
+Método de encriptación asimétrico que permite realizar cálculos directamente sobre datos encriptados sin requerir acceso a la clave privada. El resultado de tal cálculo permanece en forma encriptada, y puede ser revelado posteriormente por el propietario de la clave.
+
+\begin{figure}[H]
+  	\centering
+	\includegraphics[scale=0.5]{imgs/he.png}
+	\caption{\cite{he} Ejemplos de operaciones matemáticas realizadas sobre números encriptados por medio de Homomorphic Encryption.}
+\end{figure}
 
 \section{Federated Learning}
 El aprendizaje federado es un método de aprendizaje automático en el que el objetivo es entrenar a un modelo centralizado de alta calidad con datos de entrenamiento distribuidos entre un gran número de clientes, cada uno con conexiones de red poco confiables y relativamente lentas. Los algoritmos de aprendizaje para esta configuración funcionan de la siguiente manera: en cada iteración, cada cliente calcula de forma independiente una actualización del modelo actual en función de sus datos locales y comunica esta actualización a un servidor central, donde las actualizaciones enviadas por los clientes se agregan para calcular una nueva versión global del modelo.
@@ -313,60 +414,85 @@ El aprendizaje federado es un método de aprendizaje automático en el que el ob
 \end{itemize}
 
 
-\section{Módulos}
+\section{Blockchain}
 
-\subsection*{Interacción entre modulos}
-A continuación mostramos un diagrama del sistema describiendo las interacciones entre los diferentes módulos. \\
+\textit{Blockchain es un registro contable abierto y distribuido que puede registrar transacciones entre dos partes eficientemente y de forma verificable y permanente.}\cite{bc-def} \\
+
+Este registro contable distribuido está tipicamente administrado por una red peer-to-peer que adhiere colectivamente a un protocolo para la comunicación entre nodos y validación de nuevas transacciones.
+Una Blockchain está compuesta por las siguientes partes:
+
+\textbf{Registro contable digital} donde se anotan todas las transacciones agrupadas en bloques. \\
+\textbf{Las billeteras digitales o wallets}, permiten a los usuarios realizar transacciones y manejar sus identidades digitales. \\
+\textbf{Los mineros}, generan nuevos bloques (con las transacciones iniciadas por los usuarios de la red) resolviendo un problema matemático del protocolo de consenso. Reciben una recompensa por su trabajo. \\
+\textbf{Los nodos}, almacenan una copia exacta del libro contable y validan nuevos bloques.
+
+Se puede observar en la figura \ref{fig:bc-exp} una explicación del proceso que se dispara al realizarse una nueva transacción. 
 
 \begin{figure}[H]
   	\centering
-	\includegraphics[scale=0.5]{imgs/modules-diagram.png}
-	\caption{Interacciones de los módulos del sistema}
+	\includegraphics[scale=0.5]{imgs/blockchain-explained.png}
+	\caption{Cómo se procesa una nueva transacción en la Blockchain. \\ \textbf{Fuente:} Financial Times / PwC United States}
+	\label{fig:bc-exp}
 \end{figure}
 
-\subsection*{Módulo de Machine Learning distribuido}
-Este módulo tendrá como responsabilidad realizar entrenamientos de modelos de Machine Learning siguiendo el esquema de Federated Learning. Tendrá una interfaz lo suficientemente genérica como para poder usarse con un servidor central o en una red de nodos descentralizados (como se pretende hacer con la red de Ethereum).
 
-\subsection*{Módulo de encriptac\'ion}
-La responsabilidad de este módulo será la encriptación y desencriptación de los modelos que se transfieran en la red para su entrenamiento. \\
-Para evitar el envío de datos por la red, y así preservar la privacidad, el esquema de Federated Learning establece que se envíen los modelos a los clientes que los entrenarán.
-Dichos modelos deben estar encriptados, ya que de otra forma cualquier participante malicioso de la red podría robarlo. \\
-Para poder operar sobre un modelo encriptado existen técnicas tales como Homomorphic Encryption. \\
-El módulo deberá minimizar el riesgo de violación de la privacidad tanto del usuario que entrena el modelo con sus datos, como del usuario que desea obtener un modelo entrenado (sin que nadie se lo robe en el proceso), para esto se explorarán técnicas de  Secure Multi party computation y Differential Privacy \cite{diffpriv1} \cite{diffpriv2}.
+\subsubsection*{Caracteristicas}
+\begin{itemize}
+\item \textbf{Pseudónimo}: ya que los usuarios se identifican por medio de direcciones que no pueden ser relacionadas directamente con ellos sin alguna información externa.
+\item \textbf{Irreversible e inmutable}: Los bloques que ya se hayan agregado a la cadena no pueden ser alterados ni borrados ya que cada uno tiene una referencia al anterior y todos los nodos validan constantemente la cadena y los nuevos bloques que se agregan a ella por medio de algoritmos de consenso.
+\item \textbf{Descentralizado}: Todos los participantes de la red tienen una copia de la cadena de bloques y no está controlada por una sola entidad por lo que no hay un punto único de fallo.
+\item \textbf{Consensuado}: Por medio de algoritmos de consenso que aprovechan la descentralización, se evitan fraudes y ataques.
+\item \textbf{Cronología:} Cada bloque tiene información del momento en el que fue creado y cual fue su bloque anterior.
+\item \textbf{Transparencia:} Todos los participantes de la red pueden ver el historial transacciones que se ejecutaron hasta el momento y los bloques que las contienen.
+\end{itemize}
 
-\subsection*{La red}
-La red constará de uno o mas smart contracts desplegados en la red de Ethereum que estarán integrados con IPFS como método de almacenamiento descentralizado.
-La red proveerá medios para recompensar a los participantes de la misma, tales como pueden ser los usuarios que entrenan los modelos, según el nivel de su aporte a la calidad de las predicciones del modelo.
+\subsection{Smart Contracts}
+Aplicación informática que se programa para que ejecute acuerdos que hayan determinado dos o más partes de forma automática y sin necesidad de que un juez o una autoridad exija su cumplimiento.
+Queda almacenado en la Blockchain y por lo tanto cumple con las mismas características que se mencionaron antes.
+Un Smart Contract consta consta de las siguientes partes:
 
-\subsection*{Interfaz web del marketplace}
-El sistema debe tener una interfaz web que permita que usuarios puedan construir un modelo de machine learning que use determinado tipo de datos y enviarlo para su entrenamiento a los diferentes nodos de la red que cumplan con las características pedidas por el usuario dueño del modelo.
+\begin{itemize}
+\item \textbf{Address:} Una dirección donde se encuentra desplegado el contrato. Conociendo esta dirección podemos interactuar con él.
+\item \textbf{Código:} El contrato inteligente necesita que los acuerdos entre las partes esten escritos en forma de código. En general, se utiliza Solidity como lenguaje para programar estos contratos. Adicionalmente, al compilar el código del contrato, se genera el binario del contrato para ser desplegado y, lo que se llama ABI (Application Binary Interface), que no es más que la interfaz que deben conocer las aplicaciones que quieran comunicarse con dicho contrato.
+\item \textbf{Estado:} Los diferentes eventos o mensajes que le lleguen al contrato modificaran su estado interno (dependiendo de la lógica que se le haya programado).
+\item  \textbf{Balance:} El contrato es capaz de almacenar dinero (en forma de Ether para la Blockchain Ethereum), y distribuirlo segun la lógica que se le haya programado.
+\end{itemize}
 
-\subsection*{Cliente web/mobile}
-Este cliente deberá permitir que los usuarios decidan cuales de sus datos quieren que sean usados para entrenar modelos de machine learning.
 
 \newpage
 
 \chapter{Implementación}
 
-\section{Participantes}
+\section{DeltaML: Interacción entre participantes}
+En la figura \ref{fig:interact} se observa se observa un diagrama del sistema y las diferentes interacciones entre los participantes.
 
-\subsection*{DeltaML: Interacción entre participantes}
-En la figura \ref{fig:interact} se observa se observa un diagrama del sistema y describimos cada una de las interacciones entre los diferentes participantes.
-
-\begin{figure}[h!]
+\begin{figure}[H]
   	\centering
 	\includegraphics[scale=0.072]{imgs/deltaml_flow.png}
 	\caption{Interacciones de los módulos del sistema}
 	\label{fig:interact}
 \end{figure}
 
+\begin{enumerate}
+\item El Model Buyer solicita a la plataforma el entrenamiento de un determinado modelo usando datos que cumplan ciertos requerimientos. El model buyer entonces envía un modelo encriptado sin entrenar al Federated Aggregator y inicializa una transacción de modelo en el smart contract.
+\item Previamente, varios Data Owners se registraron al Federated Agregator para estar disponibles para solicitudes de entrenamiento de modelos, así como también en el smart contract.
+\item El Federated Aggregator les envía la solicitud de entrenamiento del modelo a cada uno de los Data Owners registrados así como también los requerimientos sobre los datos.
+\item Cada Data Owner debe asegurarse de tener los datos requeridos, luego de lo cual, si así lo desean, aceptan la solicitud de participación en el entrenamiento.
+\item El Federated Aggregator les asigna un rol de entrenador o validador a cada uno de los Data Owners, y les envía el modelo inicial encriptado.
+\item Para el caso de un entrenamiento de un modelo de regresión lineal (el caso implmenentado en este trabajo), cada Data Owner con rol de entrenador realiza N pasos de Gradient Descent de manera local con sus datos privados, y envía el modelo actualizado encriptado, luego de ese proceso, al Federated Aggregator.
+\item El Federated Aggregator realiza un promedio de todas las actualizaciones encriptadas, actualiza el modelo global que mantiene (también encriptado) y lo vuelve a enviar a los Data Owners para repetir el proceso.
+\item El Federated Aggregator al finalizar el entrenamiento actualiza las métricas de calidad del modelo en el smart contract.
+\item El model buyer recibe el modelo entrenado, y verifica las métricas de calidad en el smart contract usando el protocolo explicado en la figura \ref{fig:flujo_valid}.
+\item El smart contract calcula las contribuciones de los participantes y realiza los pagos correspondientes por el entrenamiento y validacion del modelo.
+\end{enumerate}
 
-\subsection*{Data Owner}
+
+\section{Data Owner}
 \justify
 El Data Owner es aquel que ejecuta en su computador el cliente web por medio del cual puede decidir en qué solicitudes de entrenamiento participar. Tiene en su poder uno o mas datasets. \\
 En su rol de de Data Owner publica al smart contract las caracteristicas de los datasets que posee (cantidad de registros, columnas, tipo de los datos de cada columna, cantidad de nulos por columna, etc) y recompensa monetaria mínima que está dispuesto a percibir por el entrenamiento de cada dataset.
 
-\subsubsection*{Capacidades}
+\subsection*{Capacidades}
 \begin{itemize}
 \item Elige participar en el entrenamiento de un modelo.
 \item Aporta sus datos para, de manera local y sin poder ver el modelo:
@@ -374,14 +500,14 @@ En su rol de de Data Owner publica al smart contract las caracteristicas de los 
 \item Calcular diferencia entre predicciones del modelo y lo esperado.
 \end{itemize}
 
-\subsubsection*{Limitaciones}
+\subsection*{Limitaciones}
 No puede:
 \begin{itemize}
 \item Ver los parámetros del modelo en entrenamiento, trabaja con el modelo encriptado.
 \item Alterar el cálculo de las métricas de calidad o su contribución para ganar más dinero por el entrenamiento. 
 \end{itemize}
 
-\subsubsection*{Roles}
+\subsection*{Roles}
 \begin{itemize}
 \item \textbf{Trainer:} Usa sus datos privados y su poder de cómputo para entrenar modelos.
 \item \textbf{Validator:} Usa sus datos privados y su poder de cómputo para  calcular diferencias entre lo esperado y las predicciones.
@@ -390,13 +516,13 @@ No puede:
 Los Data Owners se dividen en Trainers y Validators en proporciones de 70\% y 30\% respectivamente tal como se haría con un dataset para su entrenamiento y evaluación. Queda para futuros desarrollos hacer esta división emulando un K-Fold Cross-validation.
 
 
-\subsection*{Model Buyer}
+\section{Model Buyer}
 \justify
 El Model Buyer interactua con el sistema por medio del marketplace, publicando una solicitud de entrenamiento para un cierto modelo con ciertas caracteristicas.
 Al crear la solicitud envía un modelo inicial encriptado con Homomorphic Encryption al Federated Aggregator junto con  las carácteristicas que debe cumplir el dataset para entrenar el modelo. 
 Al mismo tiempo, inicializa en un smart contract desplegado en la red Ethereum, la transacción del correspondiente al entrenamiento del modelo y envía el monto que destina al proceso de mejorar el modelo inicial, las metricas de calidad del modelo inicial y los participantes involucrados.
 
-\subsubsection*{Capacidades}
+\subsection*{Capacidades}
 \begin{itemize}
 \item Solicita el entrenamiento de un modelo.
 \item Paga por el modelo entrenado.
@@ -404,7 +530,7 @@ Al mismo tiempo, inicializa en un smart contract desplegado en la red Ethereum, 
 \item Valida métricas de calidad del modelo.
 \end{itemize}
 
-\subsubsection*{Limitaciones}
+\subsection*{Limitaciones}
 No puede:
 \begin{itemize}
 \item Ni ver ni robar los datos con los que se entrenan los modelos.
@@ -414,10 +540,10 @@ No puede:
 
 
 
-\subsection*{Federated Aggregator}
+\section{Federated Aggregator}
 Este participante del sistema verifica periodicamente la existencia de nuevas solicitudes de entrenamiento de modelos consultando al smart contract. De encontrar una nueva solicitud, obtiene del smart contract el hash que corresponde al directorio donde se almacenan los recursos referentes a esta solicitud en IPFS, y comienza a verificar si hay nuevas mejoras publicadas por los Trainers. De existir nuevas mejoras, el Federated Aggregator realiza un promedio de las mejoras al modelo y el modelo inicial, luego calcula la métrica de calidad del modelo nuevamente y la envia al smart contract.
 
-\subsubsection*{Capacidades}
+\subsection*{Capacidades}
 \begin{itemize}
 \item Asigna roles a los Data Owners que participan en un entrenamiento.
 \item Agrega de manera segura las actualiz. al modelo provenientes de cada Data Owner.
@@ -425,7 +551,7 @@ Este participante del sistema verifica periodicamente la existencia de nuevas so
 \item Calcula las métricas de calidad del modelo.
 \end{itemize}
 
-\subsubsection*{Limitaciones}
+\subsection*{Limitaciones}
 No puede:
 \begin{itemize}
 \item Robar el modelo en entrenamiento, está encriptado.
@@ -433,13 +559,13 @@ No puede:
 \end{itemize}
 
 
-\subsection*{Contract}
+\section{Contract}
 El smart contract es el encargado de regular el mercado, recibe solicitudes provenientes del Model Buyer y las vincula con los Data Owners que las acepten y al modelo en entrenamiento. Al mismo tiempo, permite al Federated Aggregator guardar métricas métricas de calidad del modelo y que sean validadas por el Model Buyer.
 Se define aquí tambien, la recompensa mínima que recibirán todos los participantes del entrenamiento (monto fijo) y el monto variable de acuerdo a la contribución a la mejora de la calidad del modelo. \\
 El carácter descentralizado del smart contract permite que los cálculos y pagos se realicen sin necesitar de una tercera parte en la que confiar para esta parte del proceso.
 
 
-\subsubsection*{Capacidades}
+\subsection*{Capacidades}
 \begin{itemize}
 \item Restringe el acceso a sus funcionalidades según el rol del participante.
 \item Calcula contribuciones de cada Data Owner.
@@ -448,7 +574,7 @@ El carácter descentralizado del smart contract permite que los cálculos y pago
 \item Valida métricas de calidad del modelo.
 \end{itemize}
 
-\subsubsection*{Limitaciones}
+\subsection*{Limitaciones}
 No puede:
 \begin{itemize}
 \item Robar el modelo en entrenamiento (no tiene visión del mismo).
@@ -477,12 +603,46 @@ No puede:
   	\centering
 	\includegraphics[scale=0.1]{imgs/flujo_valid.png}
 	\caption{Esquema de entrenamiento de un modelo usando Federated Learning.}
+	\label{fig:flujo_valid}
 \end{figure}
 
 
-\section{Resultados}
+\chapter{Resultados}
 
-\section{Trabajo futuro}
+En el presente trabajo se desarrolló una plataforma capaz de entrenar modelos de manera descentralizada manteniendo de privacidad de los datos de los participantes involucrados. A su vez, se procuró que los modelos en entrenamiento no pudieran ser robados y ni tampoco las métricas alteradas. Todo esto se logró usando Homomorphic Encryption para generar un equema SMPC (Secure Multy-Party Computation), y Global Differential Privacy para el protocolo de calculo de métricas seguro.
+
+Adicionalmente, se comparó la calidad del modelo entrenado usando el esquema implementado en el presente trabajo y usando una regresión lineal tradicional. Para realizar ésta comparación se utilizaron los mismos datasets e hiperparametros, los cuales son:
+
+
+\begin{itemize}
+\item \textbf{Dataset:} Diabetes\cite{dataset} 
+\item \textbf{Cantidad de iteraciones máxima:} 100
+\item \textbf{Paso (Gradient Descent):} 1.5
+\item \textbf{MSE Inicial (Modelo sin entrenar):}: \~27000
+\end{itemize}
+
+Y los resultados obtenidos fueron: \\
+
+\begin{center}
+\centering
+\begin{tabular}{ || >{\centering\arraybackslash} p{6cm}| >{\centering\arraybackslash} p{6cm}||  }
+ \hline
+ \multicolumn{2}{|c|}{\textbf{MSE} (Mean Squared Error)} \\
+ \hline\hline
+ \textbf{DeltaML} & \textbf{Regresión Lineal local} \\
+ \hline
+ \rule{0pt}{4ex}  
+ 3311.84 & 3167.81 \\
+ \hline
+\end{tabular}
+\end{center}
+
+\bigskip
+
+Por lo que, además de lo logrado en materia de privacidad y seguridad, el entrenamiento de los modelos por medio del esquema implementado continuó arrojando resultados similares a los de un entrenamiento tradicional con un dataset local.
+
+
+\chapter{Trabajo futuro}
 Dada la longitud del alcance del presente trabajo, algunas tareas fueron relegadas al no ser esenciales al objetivo planteado. Se detallan a continuación, algunos de los puntos que contemplamos como trabajo futuro para seguir profundizando sobre la temática de machine learning seguro y privado, o para continuar con el desarrollo de DeltaML son: 
 
 Refactorizar el esquema para extraer un framework de Federated Leaning seguro y extensible tal que:
@@ -496,7 +656,14 @@ Refactorizar el esquema para extraer un framework de Federated Leaning seguro y 
 \item Experimentar con otros frameworks (nuevos) de Federated Learning privado, tales como: PySift de OpenMined, TF-Encrypted de DropoutLabs, CrypTFlow de Microsoft.
 \end{itemize}
  
-\section{Conclusiones finales}
+\chapter{Conclusiones finales}
+En este trabajo se propuso un esquema de entrenamiento de modelos de aprendizaje automático que no requieran el acceso físico a los datos por parte de quien desee entrenar dicho modelo, permitiendo preservar la privacidad de datos que quizas sean sensibles para los usuarios. A partir de esta propuesta se implementó DeltaML, plataforma que cumple con lo mencionado y, además, evita la apropiación del modelo en entrenamiento por cualquier otro participante de la misma. Como parte de esta solución se requería de una forma de pago a los distintos participantes que hubieran contribuido al entrenamiento de un modelo, sin embargo, usar un medio de pago que requiriera confiar en terceros, que centralizara esta dependencia o hiciera fácil algun tipo de fraude iba en contra del espiritú del trabajo. Por lo que se decidió optar por la plataforma Ethereum que por medio de sus smart contract y el carácter descentralizado de su tecnología base brindaba todas las medidas de seguridad que un trabajo de estas caracteristicas requería.
+
+En lo referente a los modelos de aprendizaje automático disponibles para entrenar por medio de DeltaML, por el momento está limitado a modelos de Regresión Lineal. Se optó por esta restricción para no extender el alcance del trabajo más allá de lo estipulado para un Trabajo Profesional de Ingeniería. Sin embargo, el proyecto es facilmente extendible para modelos de clasificación mediante Regresión Logística. El único punto a tener en cuenta en ese caso es que se deberá usar una aproximación de la función Sigmoide (si se optará por ésta) para la Regresión Logística, ya que la librería de Homomorphic Encryption usada en el proyecto no permite operaciones no lineales entre números encriptados.
+
+Con respecto a la performance, existe una diferencia considerable entre los tiempos entrenando un modelo usando DeltaML y usando un técnica tradicional. La plataforma desarrollada en el presente trabajo requiere de alrededor de 15 minutos para entrenar el mismo modelo que de otra manera se logra entrenar en cuestión de segundos. Esta diferencia tan grande se debe a que todos los cálculos se dan sobre datos que se encuentran encriptados.  Una mejora propuesta para disminuir esta baja de performance, es cambiar el mecanismo de SMPC actual (que usa Homomorphic Encryption) a uno como SPDZ \citep{spdz-1} \citep{spdz-2} \cite{spdz-prot} \cite{mpc-spdz}. 
+
+Finalmente, la calidad de los modelos entrenados con la plataforma se mantiene en comparación a la de un modelo entrenado con una Regresión Lineal con un dataset local. Por lo que al usar la plataforma se gana en protección de la privacidad y no se ve afectado el resultado final.
 
 
 %----------------------------------------------------------------------------------------
