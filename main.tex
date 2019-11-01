@@ -479,7 +479,7 @@ En la figura \ref{fig:interact} se observa se observa un diagrama del sistema y 
 \item El Federated Aggregator les envía la solicitud de entrenamiento del modelo a cada uno de los Data Owners registrados así como también los requerimientos sobre los datos.
 \item Cada Data Owner debe asegurarse de tener los datos requeridos, luego de lo cual, si así lo desean, aceptan la solicitud de participación en el entrenamiento.
 \item El Federated Aggregator les asigna un rol de entrenador o validador a cada uno de los Data Owners, y les envía el modelo inicial encriptado.
-\item Para el caso de un entrenamiento de un modelo de regresión lineal (el caso implmenentado en este trabajo), cada Data Owner con rol de entrenador realiza N pasos de Gradient Descent de manera local con sus datos privados, y envía el modelo actualizado encriptado, luego de ese proceso, al Federated Aggregator.
+\item Para el caso de un entrenamiento de un modelo de regresión lineal (el caso implemenentado en este trabajo), cada Data Owner con rol de entrenador realiza N pasos de Gradient Descent de manera local con sus datos privados, y envía el modelo actualizado encriptado, luego de ese proceso, al Federated Aggregator.
 \item El Federated Aggregator realiza un promedio de todas las actualizaciones encriptadas, actualiza el modelo global que mantiene (también encriptado) y lo vuelve a enviar a los Data Owners para repetir el proceso.
 \item El Federated Aggregator al finalizar el entrenamiento actualiza las métricas de calidad del modelo en el smart contract.
 \item El model buyer recibe el modelo entrenado, y verifica las métricas de calidad en el smart contract usando el protocolo explicado en la figura \ref{fig:flujo_valid}.
@@ -495,7 +495,7 @@ En su rol de de Data Owner publica al smart contract las caracteristicas de los 
 \subsection*{Capacidades}
 \begin{itemize}
 \item Elige participar en el entrenamiento de un modelo.
-\item Aporta sus datos para, de manera local y sin poder ver el modelo:
+\item Aporta sus datos para, de manera local y sin poder ver el modelo.
 \item Entrenar el modelo solicitado por el Model Buyer.
 \item Calcular diferencia entre predicciones del modelo y lo esperado.
 \end{itemize}
