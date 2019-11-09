@@ -515,8 +515,7 @@ En la figura \ref{fig:interact} se observa se observa un diagrama del sistema y 
 
 \section{Data Owner}
 \justify
-El Data Owner es aquel que ejecuta en su computador el cliente web por medio del cual puede decidir en qué solicitudes de entrenamiento participar. Tiene en su poder uno o mas datasets. \\
-En su rol de de Data Owner publica al Federated Aggregator las caracteristicas de los datasets que posee (cantidad de registros, columnas, tipo de los datos de cada columna, cantidad de nulos por columna, etc) y recompensa monetaria mínima que está dispuesto a percibir por el entrenamiento de cada dataset.
+El Data Owner es aquel que ejecuta en su computador el cliente web por medio del cual puede decidir en qué solicitudes de entrenamiento participar. Tiene en su poder uno o mas datasets. Es recompensado por su contribución al entrenamiento de un modelo, ya sea su rol validador o entrenador. En el caso de que su rol sea entrenador, la recompensa es proporcional a lo contribuido a la mejora de la calidad del modelo. En cambio, para su rol como validador, recibe una recompensa fija que no depende de cuanto haya mejorado este.
 
 \subsection*{Capacidades}
 \begin{itemize}
@@ -567,13 +566,13 @@ No puede:
 
 
 \section{Federated Aggregator}
-Este participante del sistema verifica periodicamente la existencia de nuevas solicitudes de entrenamiento de modelos consultando al smart contract. De encontrar una nueva solicitud, obtiene del smart contract el hash que corresponde al directorio donde se almacenan los recursos referentes a esta solicitud en la base de datos, y comienza a verificar si hay nuevas mejoras publicadas por los Trainers. De existir nuevas mejoras, el Federated Aggregator realiza un promedio de las mejoras al modelo y el modelo inicial, luego calcula la métrica de calidad del modelo nuevamente y la envia al smart contract.
+Este participante del sistema actúa como orquestador de los diferentes entrenamientos distribuidos y como mediador entre los Data Owners y Model Buyer. Para lograr una verdadera descentralización se necesitaría tener varios participantes de la plataforma actuando como Federated Aggregators.
 
 \subsection*{Capacidades}
 \begin{itemize}
 \item Asigna roles a los Data Owners que participan en un entrenamiento.
-\item Agrega de manera segura las actualiz. al modelo provenientes de cada Data Owner.
-\item Envía el modelo actualiz. encriptado a los Data Owners para que continúen el entrenamiento.
+\item Agrega de manera segura las actualizaciones al modelo provenientes de cada Data Owner.
+\item Envía el modelo actualizado encriptado a los Data Owners para que continúen el entrenamiento.
 \item Calcula las métricas de calidad del modelo.
 \end{itemize}
 
