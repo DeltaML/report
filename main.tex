@@ -633,7 +633,7 @@ El protocolo de entrenamiento encriptado, basado en la técnica de Federated Lea
 \subsection*{Calculo de métricas seguro}
 
 El protocolo de calculo de métricas seguro fue creado debido a la incapacidad de los Data Owners en su rol de validador de calcular la métrica de calidad del modelo por ellos mismos. Ésta limitación existe dado que la biblitoca de Homomorphic Encryption utilizada no permite realizar productos entre números encriptados (y se necesita elevar un número encriptado al cuadrado para el calculo del MSE). Por lo que se ideó un protocolo mediante el cual, se puede computar el MSE sin que sea el Model Buyer quien lo haga (ya que podría alterar el calculo para obtener un beneficio), pero a la vez, dandole la posibilidad de validar dicho calculo.
-El protocolo hace uso de una mecanica utilizada en Global Differential Privacy y en algunos esquemas de SMPC, la adición de \"ruido\" a la información que se envía a una parte en la que no se confía plenamente.
+El protocolo hace uso de una mecanica utilizada en Global Differential Privacy y en algunos esquemas de SMPC, la adición de ``ruido'' a la información que se envía a una parte en la que no se confía plenamente.
 
 \begin{figure}[H]
   	\centering
@@ -654,7 +654,7 @@ La figura \ref{fig:login} muestra la pantalla de Inicio de sesión que tanto el 
 	\label{fig:login}
 \end{figure}
 
-La figura \ref{fig:models_list} muestra la pantalla donde, el Data Owner, puede ver todos los pedidos o solicitudes de entrenamiento de modelos que le han llegado. Estos pueden estar en los siguientes estados:
+La figura \ref{fig:models_list} muestra la pantalla donde, el Data Owner puede ver todos los pedidos o solicitudes de entrenamiento de modelos que le han llegado. Estos pueden estar en los siguientes estados:
 
 \begin{itemize}
 \item \textbf{WAITING:} El Data Owner no tiene aún el dataset requerido para aceptar el entrenamiento. 
@@ -673,8 +673,8 @@ El Model Buyer tiene una pantalla similar pero para las solicitudes que realizó
 	\label{fig:models_list}
 \end{figure}
 
-La figura \ref{fig:model_progress} muestra la pantalla de detalle de progreso de un modelo en entrenamiento en el Model Buyer. En esta pantalla se puede observar el estado actual del modelo (los listados anteriormente), cuánto ha mejorado el modelo hasta ahora (expresado en porcentaje y a través de la métrica de calidad MSE) y cuánto se está paagando por el proceso hasta ahora.
-Además se observa la progresión de la mejora del modelo en forma de grafico, donde la curva descendente es el MSE (Mean Squared Error) decreciendo hasta el fin del entrenamiento. Y finalmente, se muestran las contribuciones que cada Data Owner entrenador realizaron al entrenamiento (expresado en porcentaje) y cuánto se le paga a cada uno por dicho trabajo.
+La figura \ref{fig:model_progress} muestra la pantalla de detalle de progreso de un modelo en entrenamiento en el Model Buyer. En esta pantalla se puede observar el estado actual del modelo (los listados anteriormente), cuánto ha mejorado el modelo hasta ahora (expresado en porcentaje y a través de la métrica de calidad MSE) y cuánto se está pagando por el proceso hasta ahora.
+Además se observa la progresión de la mejora del modelo en forma de grafico, donde la curva descendente es el MSE decreciendo hasta finalizar el entrenamiento. Y finalmente, se muestran las contribuciones que cada Data Owner en rol de entrenador realizaron al entrenamiento (expresado en porcentaje) y cuánto se le paga a cada uno por dicho trabajo.
 
 \begin{figure}[H]
   	\centering
@@ -685,9 +685,9 @@ Además se observa la progresión de la mejora del modelo en forma de grafico, d
 
 \chapter{Resultados}
 
-En el presente trabajo se desarrolló una plataforma capaz de entrenar modelos de manera descentralizada manteniendo de privacidad de los datos de los participantes involucrados. A su vez, se procuró que los modelos en entrenamiento no pudieran ser robados y ni tampoco las métricas alteradas. Todo esto se logró usando Homomorphic Encryption para generar un equema SMPC (Secure Multy-Party Computation), y Global Differential Privacy para el protocolo de calculo de métricas seguro.
+En el presente trabajo se desarrolló una plataforma capaz de entrenar modelos de manera descentralizada manteniendo la privacidad de los datos de los participantes involucrados. A su vez, se procuró que los modelos en entrenamiento no pudieran ser robados y ni tampoco las métricas alteradas. Todo esto se logró usando Homomorphic Encryption para generar un equema SMPC (Secure Multy-Party Computation), y Global Differential Privacy para el protocolo de calculo de métricas seguro.
 
-Adicionalmente, se comparó la calidad del modelo entrenado usando el esquema implementado en el presente trabajo (con \textbf{5 Data Owners}) y usando una regresión lineal tradicional. Para realizar ésta comparación se utilizaron los mismos datasets e hiperparametros, los cuales son:
+Adicionalmente, se comparó la calidad del modelo entrenado usando el esquema implementado en el presente trabajo (con \textbf{5 Data Owners}) contra una regresión lineal tradicional. Para realizar ésta comparación se utilizaron los mismos datasets e hiperparametros, los cuales son:
 
 
 \begin{itemize}
@@ -719,27 +719,32 @@ Por lo que, además de lo logrado en materia de privacidad y seguridad, el entre
 
 
 \chapter{Trabajo futuro}
-Dada la longitud del alcance del presente trabajo, algunas tareas fueron relegadas al no ser esenciales al objetivo planteado. Se detallan a continuación, algunos de los puntos que contemplamos como trabajo futuro para seguir profundizando sobre la temática de machine learning seguro y privado, o para continuar con el desarrollo de DeltaML son: 
+Dada la longitud del alcance del presente trabajo, algunas tareas fueron relegadas al no ser esenciales al objetivo planteado. Se detallan a continuación, algunos de los puntos que contemplamos como trabajo futuro para seguir profundizando sobre la temática de machine learning seguro y privado, o para continuar con el desarrollo de DeltaML: 
+\begin{itemize}
+\item Refactorizar el esquema para extraer un framework de Federated Leaning seguro y extensible tal que:
 
-Refactorizar el esquema para extraer un framework de Federated Leaning seguro y extensible tal que:
 \begin{itemize}
 \item El método de comunicación entre los participantes sea configurable (local, http, etc)
 \item El mecanismo de SMPC sea extensible y se pueda cambiar por otro de manera simple.
 \item Permita agregar nuevos tipos de modelo (regresión logística, redes neuronales, etc).
 \item Pueda ser usado con varias bibliotecas de Machine Learning (como Scikit-learn, Spark ML o incluso Tensorflow).
+\end{itemize}
+
+
 \item Investigar otros métodos de SMPC y Homomorphic Encryption, y comparar como impacta uno u otro en la performance durante el entrenamiento de un modelo.
 \item Migrar Data Owners a aplicaciones mobile.
 \item Experimentar con otros frameworks (nuevos) de Federated Learning privado, tales como: PySift de OpenMined, TF-Encrypted de DropoutLabs, CrypTFlow de Microsoft.
 \end{itemize}
  
-\chapter{Conclusiones finales}
-En este trabajo se propuso un esquema de entrenamiento de modelos de aprendizaje automático que no requieran el acceso físico a los datos por parte de quien desee entrenar dicho modelo, permitiendo preservar la privacidad de datos que quizas sean sensibles para los usuarios. A partir de esta propuesta se implementó DeltaML, plataforma que cumple con lo mencionado y, además, evita la apropiación del modelo en entrenamiento por cualquier otro participante de la misma. Como parte de esta solución se requería de una forma de pago a los distintos participantes que hubieran contribuido al entrenamiento de un modelo, sin embargo, usar un medio de pago que requiriera confiar en terceros, que centralizara esta dependencia o hiciera fácil algun tipo de fraude iba en contra del espiritú del trabajo. Por lo que se decidió optar por la plataforma Ethereum que por medio de sus smart contract y el carácter descentralizado de su tecnología base brindaba todas las medidas de seguridad que un trabajo de estas caracteristicas requería.
 
-En lo referente a los modelos de aprendizaje automático disponibles para entrenar por medio de DeltaML, por el momento está limitado a modelos de Regresión Lineal. Se optó por esta restricción para no extender el alcance del trabajo más allá de lo estipulado para un Trabajo Profesional de Ingeniería. Sin embargo, el proyecto es facilmente extendible para modelos de clasificación mediante Regresión Logística. El único punto a tener en cuenta en ese caso es que se deberá usar una aproximación de la función Sigmoide (si se optará por ésta) para la Regresión Logística, ya que la librería de Homomorphic Encryption usada en el proyecto no permite operaciones no lineales entre números encriptados.
+\chapter{Conclusiones finales}
+En este trabajo se propuso un esquema de entrenamiento de modelos de aprendizaje automático que no requieran el acceso físico a los datos por parte de quien desee entrenar dicho modelo, permitiendo preservar la privacidad de datos que quizas sean sensibles para los usuarios. A partir de esta propuesta se implementó DeltaML, plataforma que cumple con lo mencionado y, además, evita la apropiación del modelo en entrenamiento por cualquier otro participante de la misma. Como parte de esta solución se requería de una forma de pago a los distintos participantes que hubieran contribuido al entrenamiento de un modelo. Sin embargo, usar un medio de pago que requiriera confiar en terceros, que centralizara esta dependencia o hiciera fácil algun tipo de fraude iba en contra del espiritú del trabajo. Por lo que se decidió optar por la plataforma Ethereum, que por medio de sus smart contract y el carácter descentralizado de su tecnología base brindaba todas las medidas de seguridad que un trabajo de estas caracteristicas requería.
+
+En lo referente a los modelos de aprendizaje automático disponibles para entrenar por medio de DeltaML, por el momento está limitado a modelos de Regresión Lineal. Se optó por esta restricción para no ampliar el alcance del trabajo más allá de lo estipulado para un Trabajo Profesional de Ingeniería. Sin embargo, el proyecto es facilmente extendible para modelos de clasificación mediante Regresión Logística. El único punto a tener en cuenta en ese caso es que se deberá usar una aproximación de la función Sigmoide (si se optara por ésta) para la Regresión Logística, ya que la biblioteca de Homomorphic Encryption utilizada en el proyecto no permite operaciones no lineales entre números encriptados.
 
 Con respecto a la performance, existe una diferencia considerable entre los tiempos entrenando un modelo usando DeltaML y usando un técnica tradicional. La plataforma desarrollada en el presente trabajo requiere de alrededor de 15 minutos para entrenar el mismo modelo que de otra manera se logra entrenar en cuestión de segundos. Esta diferencia tan grande se debe a que todos los cálculos se dan sobre datos que se encuentran encriptados.  Una mejora propuesta para disminuir esta baja de performance, es cambiar el mecanismo de SMPC actual (que usa Homomorphic Encryption) a uno como SPDZ \citep{spdz-1} \citep{spdz-2} \cite{spdz-prot} \cite{mpc-spdz}. 
 
-Finalmente, la calidad de los modelos entrenados con la plataforma se mantiene en comparación a la de un modelo entrenado con una Regresión Lineal con un dataset local. Por lo que al usar la plataforma se gana en protección de la privacidad y no se ve afectado el resultado final.
+Finalmente, la calidad de los modelos entrenados bajo la plataforma, en comparación con la de un modelo entrenado localmente utilizando una Regresión Lineal, no demuestra una disminución significativa. Por lo que al usar la plataforma se gana en protección de la privacidad y no se ve afectado el resultado final.
 
 
 %----------------------------------------------------------------------------------------
@@ -771,7 +776,7 @@ Finalmente, la calidad de los modelos entrenados con la plataforma se mantiene e
 \section*{Homomorphic Encryption}
 
 \subsection*{Python-paillier \cite{python-paillier}}
-Biblioteca de python para Encriptación Homomórfica Parcial (Partially Homomorphic Encryption) badada en el sistema  llamado Paillier \cite{paillier}. Se optó por esta biblioteca por las facilidades para serialización y deserialización de números encriptados que brinda.  
+Biblioteca de python para Encriptación Homomórfica Parcial (Partially Homomorphic Encryption) basada en el cripto sistema Paillier \cite{paillier}. Se optó por esta biblioteca por las facilidades para serialización y deserialización de números encriptados que brinda.  
 
 \section*{Blockchain}
 
