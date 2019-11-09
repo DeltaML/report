@@ -263,9 +263,8 @@ El programa que aprende de la experiencia, en el ámbito del aprendizaje automá
 
 \subsection{Datasets}
 Contiene las muestras (experiencias) necesarias para el proceso de aprendizaje y evaluación del modelo.
-\textbf{Ejemplo:} un programa que aprende a jugar al ajedrez.
 \begin{itemize}
-\item \textbf{Set de entrenamiento:} muestras usadas para entrenar modelo.
+\item \textbf{Set de entrenamiento:} muestras usadas para entrenar el modelo.
 \item \textbf{Set de test:} muestras para evaluar cuán bien aprendió el modelo.
 \end{itemize}
 
@@ -273,7 +272,7 @@ Si bien existen otros esquemas para separar el dataset y evaluar el modelo, se e
 
 \subsection{Entrenamiento y predicción}
 
-Un modelo de aprendizaje automatico aprende de las experiencias o muestras dadas en forma de datos dentro de un \textbf{Dataset}. Dicho proceso se dá como se describe a continación:
+Un modelo de aprendizaje automatico aprende de las experiencias o muestras dadas en forma de datos dentro del \textbf{Dataset}. Dicho proceso se dá como se describe a continación:
 
 \subsubsection*{Entrenamiento}
 \begin{itemize}
@@ -291,7 +290,7 @@ Un modelo de aprendizaje automatico aprende de las experiencias o muestras dadas
 
 \subsubsection*{Predicción}
 \begin{itemize}
-\item Se quiere realizar una prección a partir de \textbf{una nueva instancia de dato} que es del mismo tipo que los usados para entrenar y evaluar el modelo (tiene los mismos features o atributos).
+\item Se quiere realizar una predicción a partir de \textbf{un nuevo dato} del mismo tipo que los usados para entrenar y evaluar el modelo (es decir que, tiene los mismos features o atributos).
 \item Se realiza un \textbf{pre-proceso del dato}, el mismo que se realizó para los datos de entrenamiento.
 \item Se procede a darle esta nueva instancia de dato como entrada al \textbf{modelo}. La salida es la predicción hecha por el modelo entrenado.
 \end{itemize}
@@ -319,8 +318,8 @@ Para ejemplificar, sean $P_{1},...,P_{n}$ diferentes partes dentro de un sistema
 
 Existen muchos protocolos y m\'etodos para construir un sistema que asegure SMPC. Algunos de estos son:
 
-\begin{itemize}
-\item Protocolos basados en Homomorphic Encryption
+\begin{itemize}{}
+\item Protocolos basados en Homomorphic Encryption \ref{section-he}
 \item Protocolos basados en zero proofs.
 \end{itemize}
 
@@ -337,14 +336,15 @@ Las claves se generan por medio de algoritmos basados en problemas matemáticos 
 
 \section{Differential Privacy}
 La privacidad diferencial \cite{diffpriv4} no es, en sí misma, una tecnología. Es una propiedad que describe algunos sistemas: una garantía matemática de que no se violará la privacidad uno o mas individuos si sus datos se utilizan para un determinado análisis. Un sistema que es diferencialmente privado permite realizar análisis sobre estos datos sensibles mientras los protege detrás de un velo de incertidumbre. \\
-Otra definición \cite{diffpriv3} lo describe una promesa hecha por aquellos individuos o entes que recaban o curan datos, a los due\~nos originales de los mismos. Dicha promesa expresa que la privacidad del dueño original no ser\'a afectada de forma adversa al permitir que sus datos sean usados en alg\'un estudio o an\'alisis, no importa qu\'e otros estudios, sets de datos o fuentes de informaci\'on haya disponibles.
+Otra definición \cite{diffpriv3} lo describe como una promesa hecha por aquellos individuos o entes que recaban o curan datos, a los due\~nos originales de los mismos. Dicha promesa expresa que la privacidad del dueño original no ser\'a afectada de forma adversa al permitir que sus datos sean usados en alg\'un estudio o an\'alisis, no importa qu\'e otros estudios, sets de datos o fuentes de informaci\'on haya disponibles.
 
 \subsection{Local Differential Privacy}
 Con la privacidad local, no hay una parte confiable; cada persona es responsable de agregar ruido a sus propios datos antes de compartirlos. Cada persona es un curador a cargo de su propia base de datos privada. Por lo general, un sistema privado local involucra a una parte no confiable (el agregador) que recopila datos de un gran grupo de personas a la vez.
+La privacidad local es un modelo más conservador y seguro. Bajo la privacidad local, cada dato individual es extremadamente ruidoso y no es muy útil por sí solo. Sin embargo, en números muy grandes, el ruido de los datos se puede filtrar, y los agregadores que recopilan suficientes datos privados locales pueden hacer análisis útiles sobre las tendencias en todo el conjunto de datos.
 
 \subsection{Global Differential Privacy}
 Los sistemas privados a globales son generalmente más precisos: todo el análisis se realiza en datos "limpios", y solo se necesita agregar una pequeña cantidad de ruido al final del proceso. Sin embargo, para que funcione la privacidad global, todos los involucrados deben confiar en el curador. \\
-La privacidad local es un modelo más conservador y seguro. Bajo la privacidad local, cada dato individual es extremadamente ruidoso y no es muy útil por sí solo. Sin embargo, en números muy grandes, el ruido de los datos se puede filtrar, y los agregadores que recopilan suficientes datos privados locales pueden hacer análisis útiles sobre las tendencias en todo el conjunto de datos.
+
 
 \begin{figure}[H]
   	\centering
@@ -389,7 +389,7 @@ w_{j} = w_{j} - (\frac{\alpha}{m} \sum_{i=1}^{m} (h_{w}(x)^{(i)} - y^{(i)}) \cdo
 
 \pagebreak
 
-\section{Homomorphic Encryption}
+\section{Homomorphic Encryption}\label{section-he}
 \cite{homenc} Método de encriptación asimétrico que permite realizar cálculos directamente sobre datos encriptados sin requerir acceso a la clave privada. El resultado de tal cálculo permanece en forma encriptada, y puede ser revelado posteriormente por el propietario de la clave.
 
 \begin{figure}[H]
@@ -401,7 +401,7 @@ w_{j} = w_{j} - (\frac{\alpha}{m} \sum_{i=1}^{m} (h_{w}(x)^{(i)} - y^{(i)}) \cdo
 Dentro de los cifrados con propiedades homomorficas, se pueden distinguir dos tipos \cite{homenc1} \cite{homenc2}: Fully Homomorphic Encryption y Partially Homomorphic Encryption.
 
 \subsection*{Fully Homomophic Encryption}
-Un cifrado se considera totalmente homomórfico si exhibe tanto homomorfismo\footnote{\textbf{Homomorfismo en encriptación}: una operación realizada en un conjunto de datos cifrados tal que al desencriptar el resultado de la operación se obtiene el mismo resultado que si ésta se hubiera realizado sobre los datos sin cifrar.} aditivo como multiplicativo.
+Un cifrado se considera totalmente homomórfico si exhibe tanto homomorfismo\footnote{\textbf{Homomorfismo en encriptación}: propiedad en la cúal luego de realizar una operación algebraica con los datos cifrados, al desencriptar el resultado de la misma se obtiene el mismo resultado que si ésta se hubiera realizado sobre los datos sin cifrar.} aditivo como multiplicativo.
 
 \subsection*{Partially Homomophic Encryption}
 Un cifrado es considerado parcialmente homomórfico si exhibe homomorfismo aditivo o multiplicativo, pero no ambos. Algunos ejemplos de estos sistemas son:
@@ -416,7 +416,7 @@ El criptosistema utilizado en este trabajo es uno basado en Paillier \cite{paill
 Las propiedades homomorficas de un sistema de encriptación del tipo paillier son:
 
 \begin{itemize}
-\item Números encriptados pueden ser encriptados por un escalar no encriptado.
+\item Números encriptados pueden ser multiplicados por un escalar no encriptado.
 \item Números encriptados pueden ser sumados entre sí.
 \item Numeros encriptados pueden ser sumados a escalares no encriptados.
 \end{itemize}
@@ -458,7 +458,7 @@ Se puede observar en la figura \ref{fig:bc-exp} una explicación del proceso que
 \subsubsection*{Caracteristicas}
 \begin{itemize}
 \item \textbf{Pseudónimo}: ya que los usuarios se identifican por medio de direcciones que no pueden ser relacionadas directamente con ellos sin alguna información externa.
-\item \textbf{Irreversible e inmutable}: Los bloques que ya se hayan agregado a la cadena no pueden ser alterados ni borrados ya que cada uno tiene una referencia al anterior y todos los nodos validan constantemente la cadena y los nuevos bloques que se agregan a ella por medio de algoritmos de consenso.
+\item \textbf{Irreversible e inmutable}: Los bloques que ya se hayan agregado a la cadena no pueden ser alterados ni borrados ya que cada uno tiene una referencia al anterior, todos los nodos validan constantemente la cadena y los nuevos bloques que se agregan a ella por medio de algoritmos de consenso.
 \item \textbf{Descentralizado}: Todos los participantes de la red tienen una copia de la cadena de bloques y no está controlada por una sola entidad por lo que no hay un punto único de fallo.
 \item \textbf{Consensuado}: Por medio de algoritmos de consenso que aprovechan la descentralización, se evitan fraudes y ataques.
 \item \textbf{Cronología:} Cada bloque tiene información del momento en el que fue creado y cual fue su bloque anterior.
@@ -478,8 +478,8 @@ Queda almacenado en la Blockchain y por lo tanto cumple con las mismas caracter�
 Un Smart Contract consta consta de las siguientes partes:
 
 \begin{itemize}
-\item \textbf{Address:} Una dirección donde se encuentra desplegado el contrato. Conociendo esta dirección podemos interactuar con él.
-\item \textbf{Código:} El contrato inteligente necesita que los acuerdos entre las partes esten escritos en forma de código. En general, se utiliza Solidity como lenguaje para programar estos contratos. Adicionalmente, al compilar el código del contrato, se genera el binario del contrato para ser desplegado y, lo que se llama ABI (Application Binary Interface), que no es más que la interfaz que deben conocer las aplicaciones que quieran comunicarse con dicho contrato.
+\item \textbf{Address:} Una dirección donde se encuentra desplegado el contrato. Las partes usan esta dirección para interactuar con él.
+\item \textbf{Código:} El contrato inteligente necesita que los acuerdos entre las partes esten escritos en forma de código. En general, se utiliza Solidity como lenguaje de programación. Adicionalmente, al compilar el código del contrato, se genera el binario de este para ser desplegado a la red de nodos (en este caso, Ethereum) y, lo que se llama ABI (Application Binary Interface), que no es más que la interfaz que deben conocer las aplicaciones que quieran comunicarse con dicho contrato.
 \item \textbf{Estado:} Los diferentes eventos o mensajes que le lleguen al contrato modificaran su estado interno (dependiendo de la lógica que se le haya programado).
 \item  \textbf{Balance:} El contrato es capaz de almacenar dinero (en forma de Ether para la Blockchain Ethereum), y distribuirlo segun la lógica que se le haya programado.
 \end{itemize}
@@ -500,12 +500,12 @@ En la figura \ref{fig:interact} se observa se observa un diagrama del sistema y 
 \end{figure}
 
 \begin{enumerate}
-\item El Model Buyer solicita a la plataforma el entrenamiento de un determinado modelo usando datos que cumplan ciertos requerimientos. El model buyer entonces envía un modelo encriptado sin entrenar al Federated Aggregator y inicializa una transacción de modelo en el smart contract.
-\item Previamente, varios Data Owners se registraron al Federated Aggregator para estar disponibles para solicitudes de entrenamiento de modelos, así como también en el smart contract.
-\item El Federated Aggregator les envía la solicitud de entrenamiento del modelo a cada uno de los Data Owners registrados así como también los requerimientos sobre los datos.
+\item El Model Buyer solicita a la plataforma el entrenamiento de un determinado modelo usando datos que cumplan ciertos requerimientos. El Model Buyer entonces envía un modelo encriptado sin entrenar al Federated Aggregator e inicializa una transacción de modelo en el smart contract.
+\item Previamente, varios Data Owners se registraron al Federated Aggregator y en el smart contract para estar disponibles a nuevas solicitudes de entrenamientos.
+\item El Federated Aggregator les envía la solicitud de entrenamiento a cada uno de los Data Owners registrados así como también los requerimientos sobre los datos.
 \item Cada Data Owner debe asegurarse de tener los datos requeridos, luego de lo cual, si así lo desean, aceptan la solicitud de participación en el entrenamiento.
 \item El Federated Aggregator les asigna un rol de entrenador o validador a cada uno de los Data Owners, y les envía el modelo inicial encriptado.
-\item Para el caso de un entrenamiento de un modelo de regresión lineal (el caso implemenentado en este trabajo), cada Data Owner con rol de entrenador realiza N pasos de Gradient Descent de manera local con sus datos privados, y envía el modelo actualizado encriptado, luego de ese proceso, al Federated Aggregator.
+\item Para el caso de un entrenamiento de un modelo de regresión lineal (el caso implemenentado en este trabajo), cada Data Owner con rol de entrenador realiza N pasos de Gradient Descent de manera local con sus datos privados, y envía el modelo actualizado encriptado, luego de este proceso, al Federated Aggregator.
 \item El Federated Aggregator realiza un promedio de todas las actualizaciones encriptadas, actualiza el modelo global que mantiene (también encriptado) y lo vuelve a enviar a los Data Owners para repetir el proceso.
 \item El Federated Aggregator al finalizar el entrenamiento actualiza las métricas de calidad del modelo en el smart contract.
 \item El model buyer recibe el modelo entrenado, y verifica las métricas de calidad en el smart contract usando el protocolo explicado en la figura \ref{fig:flujo_valid}.
