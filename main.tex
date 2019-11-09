@@ -103,6 +103,8 @@ Agustín \textsc{Rojas}  91462
 \hypersetup{pdfkeywords=\keywordnames} % Set the PDF's keywords to your keywords
 }
 
+\urlstyle{same}
+
 \begin{document}
 
 \frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
@@ -243,7 +245,7 @@ El presente trabajo consta de los siguientes objetivos principales:
 \chapter{Introducción teórica}
 
 \section{Machine Learning}
-Machine Learning o (Aprendizaje automático) es un subconjunto de la inteligencia artificial que se centra en el estudio y construcción de sistemas capaces de aprender de los datos, identificar patrones y realizar decisiones con mínima intervención humana.
+Machine Learning\cite{ml} o (Aprendizaje automático) es un subconjunto de la inteligencia artificial que se centra en el estudio y construcción de sistemas capaces de aprender de los datos, identificar patrones y realizar decisiones con mínima intervención humana.
 
 Una definición más técnica podría ser: 
 
@@ -354,7 +356,7 @@ La privacidad local es un modelo más conservador y seguro. Bajo la privacidad l
 
 \chapter{Fundamentos y herramientas}
 
-\section{Modelo de Regresión Lineal}
+\section{Modelo de Regresión Lineal \cite{ml}}
 Método estadístico que, en aprendizaje automático, se utiliza para predecir un valor objetivo (\textbf{y}) en base a variables independientes (los features o atributos, \textbf{X}).
 
 $ x_{j}^{(i)} $ = el valor del feature j en la i-ésima muestra de entrenamiento \\
@@ -388,7 +390,7 @@ w_{j} = w_{j} - (\frac{\alpha}{m} \sum_{i=1}^{m} (h_{w}(x)^{(i)} - y^{(i)}) \cdo
 \pagebreak
 
 \section{Homomorphic Encryption}
-Método de encriptación asimétrico que permite realizar cálculos directamente sobre datos encriptados sin requerir acceso a la clave privada. El resultado de tal cálculo permanece en forma encriptada, y puede ser revelado posteriormente por el propietario de la clave.
+\cite{homenc} Método de encriptación asimétrico que permite realizar cálculos directamente sobre datos encriptados sin requerir acceso a la clave privada. El resultado de tal cálculo permanece en forma encriptada, y puede ser revelado posteriormente por el propietario de la clave.
 
 \begin{figure}[H]
   	\centering
@@ -396,8 +398,33 @@ Método de encriptación asimétrico que permite realizar cálculos directamente
 	\caption{\cite{he} Ejemplos de operaciones matemáticas realizadas sobre números encriptados por medio de Homomorphic Encryption.}
 \end{figure}
 
+Dentro de los cifrados con propiedades homomorficas, se pueden distinguir dos tipos \cite{homenc1} \cite{homenc2}: Fully Homomorphic Encryption y Partially Homomorphic Encryption.
+
+\subsection*{Fully Homomophic Encryption}
+Un cifrado se considera totalmente homomórfico si exhibe tanto homomorfismo\footnote{\textbf{Homomorfismo en encriptación}: una operación realizada en un conjunto de datos cifrados tal que al desencriptar el resultado de la operación se obtiene el mismo resultado que si ésta se hubiera realizado sobre los datos sin cifrar.} aditivo como multiplicativo.
+
+\subsection*{Partially Homomophic Encryption}
+Un cifrado es considerado parcialmente homomórfico si exhibe homomorfismo aditivo o multiplicativo, pero no ambos. Algunos ejemplos de estos sistemas son:
+\begin{itemize}
+\item \textbf{RSA:} homomorfismo multiplicativo. 
+\item \textbf{ElGamal:} homomorfismo multiplicativo.
+\item \textbf{Paillier:} homomorfismo aditivo.
+\end{itemize}
+
+\subsubsection*{Paillier}
+El criptosistema utilizado en este trabajo es uno basado en Paillier \cite{paillier}. 
+Las propiedades homomorficas de un sistema de encriptación del tipo paillier son:
+
+\begin{itemize}
+\item Números encriptados pueden ser encriptados por un escalar no encriptado.
+\item Números encriptados pueden ser sumados entre sí.
+\item Numeros encriptados pueden ser sumados a escalares no encriptados.
+\end{itemize}
+
+Se optó por éste cripto-sistema por la facilidad que brinda una de sus implementaciones (python-paillier) para la serialización y deserialización de números encriptados. 
+
 \section{Federated Learning}
-El aprendizaje federado es un método de aprendizaje automático en el que el objetivo es entrenar a un modelo centralizado de alta calidad con datos de entrenamiento distribuidos entre un gran número de clientes, cada uno con conexiones de red poco confiables y relativamente lentas. Los algoritmos de aprendizaje para esta configuración funcionan de la siguiente manera: en cada iteración, cada cliente calcula de forma independiente una actualización del modelo actual en función de sus datos locales y comunica esta actualización a un servidor central, donde las actualizaciones enviadas por los clientes se agregan para calcular una nueva versión global del modelo.
+El aprendizaje federado \cite{fedlearn2} \cite{fedlearn1} \cite{fedlearn3} \cite{fedlearn4} \cite{fedlearn5} \cite{fedlearn6} es un método de aprendizaje automático en el que el objetivo es entrenar a un modelo centralizado de alta calidad con datos de entrenamiento distribuidos entre un gran número de clientes, cada uno con conexiones de red poco confiables y relativamente lentas. Los algoritmos de aprendizaje para esta configuración funcionan de la siguiente manera: en cada iteración, cada cliente calcula de forma independiente una actualización del modelo actual en función de sus datos locales y comunica esta actualización a un servidor central, donde las actualizaciones enviadas por los clientes se agregan para calcular una nueva versión global del modelo.
 
 \begin{figure}[H]
   	\centering
@@ -414,7 +441,7 @@ El aprendizaje federado es un método de aprendizaje automático en el que el ob
 \end{itemize}
 
 
-\section{Blockchain}
+\section{Blockchain \cite{bc}}
 
 \textit{Blockchain es un registro contable abierto y distribuido que puede registrar transacciones entre dos partes eficientemente y de forma verificable y permanente.}\cite{bc-def} \\
 
@@ -428,14 +455,6 @@ Una Blockchain está compuesta por las siguientes partes:
 
 Se puede observar en la figura \ref{fig:bc-exp} una explicación del proceso que se dispara al realizarse una nueva transacción. 
 
-\begin{figure}[H]
-  	\centering
-	\includegraphics[scale=0.5]{imgs/blockchain-explained.png}
-	\caption{Cómo se procesa una nueva transacción en la Blockchain. \\ \textbf{Fuente:} Financial Times / PwC United States}
-	\label{fig:bc-exp}
-\end{figure}
-
-
 \subsubsection*{Caracteristicas}
 \begin{itemize}
 \item \textbf{Pseudónimo}: ya que los usuarios se identifican por medio de direcciones que no pueden ser relacionadas directamente con ellos sin alguna información externa.
@@ -446,7 +465,14 @@ Se puede observar en la figura \ref{fig:bc-exp} una explicación del proceso que
 \item \textbf{Transparencia:} Todos los participantes de la red pueden ver el historial transacciones que se ejecutaron hasta el momento y los bloques que las contienen.
 \end{itemize}
 
-\subsection{Smart Contracts}
+\begin{figure}[H]
+  	\centering
+	\includegraphics[scale=0.5]{imgs/blockchain-explained.png}
+	\caption{Cómo se procesa una nueva transacción en la Blockchain. \\ \textbf{Fuente:} Financial Times / PwC United States}
+	\label{fig:bc-exp}
+\end{figure}
+
+\subsection{Smart Contracts \cite{sc}}
 Aplicación informática que se programa para que ejecute acuerdos que hayan determinado dos o más partes de forma automática y sin necesidad de que un juez o una autoridad exija su cumplimiento.
 Queda almacenado en la Blockchain y por lo tanto cumple con las mismas características que se mencionaron antes.
 Un Smart Contract consta consta de las siguientes partes:
@@ -585,40 +611,90 @@ No puede:
 \section{Protocolos}
 
 \subsection*{Obtención de recursos para entrenamiento}
+
+Este protocolo se encarga  de la registración de los Data Owners disponibles al servicio del Federated Aggregator, de la inicialización de la solicitud de entrenamiento del modelo, y la aceptación o declinación de dicha solicitud por parte de cada Data Owner. 
+
 \begin{figure}[H]
   	\centering
 	\includegraphics[scale=0.1]{imgs/flujo_fase1.png}
-	\caption{Esquema de entrenamiento de un modelo usando Federated Learning.}
+	\caption{Protocolo de inicialización del proceso de entrenamiento.}
 \end{figure}
 
 \subsection*{Entrenamiento del modelo encriptado}
+
+El protocolo de entrenamiento encriptado, basado en la técnica de Federated Learning, define como se dará éste entrenamiento de manera distribuida, con el modelo encriptado en todo momento y, con cada Data Owner brindando sus datos locales y procesamiento.
+
 \begin{figure}[H]
   	\centering
 	\includegraphics[scale=0.1]{imgs/flujo_fase2.png}
-	\caption{Esquema de entrenamiento de un modelo usando Federated Learning.}
+	\caption{Protocolo de entrenamiento de un modelo de manera distribuida y segura.}
 \end{figure}
 
 \subsection*{Calculo de métricas seguro}
+
+El protocolo de calculo de métricas seguro fue creado debido a la incapacidad de los Data Owners de calcular la métrica de calidad del modelo por ellos mismos. Ésta limitación se da debido a que la biblitoca de Homomorphic Encryption utilizada no permite realizar productos entre números encriptados (y se necesita elevar un número encriptado al cuadrado para el calculo del MSE). Por lo que se ideó un protocolo mediante el cual, se puede calcular el MSE sin que sea el Model Buyer quien lo haga (ya que podría alterar el calculo para obtener un beneficio), pero a la vez, dandole la posibilidad de validar dicho calculo.
+El protocolo hace uso de una mecanica utilizada en Global Differential Privacy y en algunos esquemas de SMPC, la adición de "ruido" a la información que se envía a una parte en la que no se confía plenamente.
+
 \begin{figure}[H]
   	\centering
 	\includegraphics[scale=0.1]{imgs/flujo_valid.png}
-	\caption{Esquema de entrenamiento de un modelo usando Federated Learning.}
+	\caption{Esquema de calculo y validación de métricas seguro.}
 	\label{fig:flujo_valid}
 \end{figure}
 
+
+\section{Imágenes de la plataforma DeltaML}
+
+La figura \ref{fig:login} muestra la pantalla de Inicio de sesión que tanto el Data Owner como el Model Buyer ven antes de ingresar a la plataforma ingresando sus credenciales.
+
+\begin{figure}[H]
+  	\centering
+	\includegraphics[scale=0.3]{imgs/Login.png}
+	\caption{Pantalla de Login de la plataforma.}
+	\label{fig:login}
+\end{figure}
+
+La figura \ref{fig:models_list} muestra la pantalla donde, el Data Owner, puede ver todos los pedidos o solicitudes de entrenamiento de modelos que le han llegado. Estos pueden estar en los siguientes estados:
+
+\begin{itemize}
+\item \textbf{WAITING:} El Data Owner no tiene aún el dataset requerido para aceptar el entrenamiento. 
+\item \textbf{READY:} El Data Owner tiene el dataset requerido pero no ha aceptado el entrenamiento aún. 
+\item \textbf{INITIATED:} El Data Owner ha aceptado participar en el entrenamiento, pero el proceso no ha comenzado debido a que todavía no se ha alcanzado el número mínimo requerido de Data Owners que acepten la solicitud.
+\item \textbf{IN PROGRESS:} El entrenamiento del modelo ha comenzado.
+\item \textbf{FINISHED:} El entrenamiento del modelo finalizó. 
+\end{itemize}
+
+El Model Buyer tiene una pantalla similar pero para las solicitudes que realizó.
+
+\begin{figure}[H]
+  	\centering
+	\includegraphics[scale=0.3]{imgs/ModelsList.png}
+	\caption{Pantalla de lista entrenamientos solicitados al Data Owner.}
+	\label{fig:models_list}
+\end{figure}
+
+La figura \ref{fig:model_progress} muestra la pantalla de detalle de progreso de un modelo en entrenamiento en el Model Buyer. En esta pantalla se puede observar el estado actual del modelo (los listados anteriormente), cuánto ha mejorado el modelo hasta ahora (expresado en porcentaje y a través de la métrica de calidad MSE) y cuánto se está paagando por el proceso hasta ahora.
+Además se observa la progresión de la mejora del modelo en forma de grafico, donde la curva descendente es el MSE (Mean Squared Error) decreciendo hasta el fin del entrenamiento. Y finalmente, se muestran las contribuciones que cada Data Owner entrenador realizaron al entrenamiento (expresado en porcentaje) y cuánto se le paga a cada uno por dicho trabajo.
+
+\begin{figure}[H]
+  	\centering
+	\includegraphics[scale=0.3]{imgs/ModelProgress.png}
+	\caption{Pantalla de detalle del progreso del entrenamiento de un modelo en el ModelBuyer.}
+	\label{fig:model_progress}
+\end{figure}
 
 \chapter{Resultados}
 
 En el presente trabajo se desarrolló una plataforma capaz de entrenar modelos de manera descentralizada manteniendo de privacidad de los datos de los participantes involucrados. A su vez, se procuró que los modelos en entrenamiento no pudieran ser robados y ni tampoco las métricas alteradas. Todo esto se logró usando Homomorphic Encryption para generar un equema SMPC (Secure Multy-Party Computation), y Global Differential Privacy para el protocolo de calculo de métricas seguro.
 
-Adicionalmente, se comparó la calidad del modelo entrenado usando el esquema implementado en el presente trabajo y usando una regresión lineal tradicional. Para realizar ésta comparación se utilizaron los mismos datasets e hiperparametros, los cuales son:
+Adicionalmente, se comparó la calidad del modelo entrenado usando el esquema implementado en el presente trabajo (con \textbf{5 Data Owners}) y usando una regresión lineal tradicional. Para realizar ésta comparación se utilizaron los mismos datasets e hiperparametros, los cuales son:
 
 
 \begin{itemize}
 \item \textbf{Dataset:} Diabetes\cite{dataset} 
 \item \textbf{Cantidad de iteraciones máxima:} 100
 \item \textbf{Paso (Gradient Descent):} 1.5
-\item \textbf{MSE Inicial (Modelo sin entrenar):}: \~27000
+\item \textbf{MSE Inicial (Modelo sin entrenar):} $\approx$ 27000
 \end{itemize}
 
 Y los resultados obtenidos fueron: \\
@@ -686,6 +762,71 @@ Finalmente, la calidad de los modelos entrenados con la plataforma se mantiene e
 \item \textbf{Multi-party computation}: es una rama de la criptografía, la cual tiene por objetivo la creación de métodos para que diferentes partes puedan en conjunto realizar el computo de una función sobre sus datos a la vez que mantienen la privacidad de ellos.
 \item \textbf{Homomorphic Encryption}: es un método de encriptación que difiere de los métodos típicos en que permite realizar cálculos directamente en datos encriptados sin requerir acceso a la clave. El resultado de tal cálculo permanece en forma encriptada, y puede ser revelado posteriormente por el propietario de la clave.
 \end{itemize}
+
+
+%----------------------------------------------------------------------------------------
+
+\chapter{Tenologías utilizadas}
+
+\section*{Homomorphic Encryption}
+
+\subsection*{Python-paillier \cite{python-paillier}}
+Biblioteca de python para Encriptación Homomórfica Parcial (Partially Homomorphic Encryption) badada en el sistema  llamado Paillier \cite{paillier}. Se optó por esta biblioteca por las facilidades para serialización y deserialización de números encriptados que brinda.  
+
+\section*{Blockchain}
+
+\subsection*{Ethereum network \cite{eth}}
+Plataforma descentralizada que ejecuta contratos inteligentes (smart contracts): aplicaciones que se ejecutan exactamente como fueron programadas sin ninguna posibilidad de downtime, censura, fraude o interferencia de una tercera parte.
+
+\subsection*{Solidity \cite{sol}}
+Lenguaje de alto nivel, orientado a objetos para implementar smart contracts. Los smart contracts son programas que gobiernan el comportamiento de cuentas dentro del ecosistema Ethereum.
+
+\subsection*{Truffle \cite{tr}}
+Framework de desarrollo de smart contracts para blockchains que utilizan la Máquina Virtual Ethereum (EVM).
+
+\subsection*{Ganache \cite{gch}}
+Blockchain personal para el desarrollo en Ethereum (testnet local) que se puede utilizar para implementar contratos, desarrollar sus aplicaciones y ejecutar pruebas.
+
+
+\section*{API}
+
+\subsection*{Python \cite{py}}
+Lenguaje de alto nivel y tipado dinámico con soporte de paradigma de objetos que se utilizó para el desarrollo de los módulos de Federated Learning y Encriptación. Se eligió este lenguaje por su uso simple, por las herramientas desarrolladas para las áreas de Machine Learning y análisis de datos, y su gran adopción en el mundo del desarrollo y ciencias de datos, lo que reduce, también, dificultades en la resolución de problemas que puedan surgir durante el proyecto.
+
+\subsection*{Flask \cite{flask}}
+Flask es un framework minimalista escrito en Python que te permite crear aplicaciones web rápidamente y con un mínimo número de líneas de código.
+
+\section*{UI}
+
+\subsection*{React \cite{rt}}
+Biblioteca Javascript de código abierto diseñada para crear interfaces de usuario con el objetivo de facilitar el desarrollo de aplicaciones en una sola página.
+
+\section*{General}
+
+\subsection*{Docker \cite{docker}}
+Automatiza el despliegue de aplicaciones dentro de contenedores, proporcionando una capa adicional de abstracción y automatización de virtualización de aplicaciones en múltiples sistemas operativos.
+
+\subsection*{Docker Compose \cite{docker-compose}}
+Es una herramienta para definir y ejecutar aplicaciones que consisten en varios contendores de Docker.
+
+
+%----------------------------------------------------------------------------------------
+
+\chapter{Código fuente}
+
+\begin{itemize}
+\item \textbf{Model Buyer API:} \url{https://github.com/DeltaML/model-buyer}
+\item \textbf{Model Buyer UI:} \url{https://github.com/DeltaML/model-buyer-ui}
+\item \textbf{Data Owner API:} \url{https://github.com/DeltaML/data-owner}
+\item \textbf{Data Owner UI:} \url{https://github.com/DeltaML/data-owner} 
+\item \textbf{Federated Aggregator:} \url{https://github.com/DeltaML/federated-aggregator}
+\item \textbf{Contract:} \url{https://github.com/DeltaML/contract}
+\item \textbf{Libreria commons:} \url{https://github.com/DeltaML/commons}
+\item \textbf{docker-compose:} \url{https://github.com/DeltaML/docker-compose}
+\item \textbf{Scripts:} \url{https://github.com/DeltaML/testing}
+\end{itemize}
+
+
 
 
 %----------------------------------------------------------------------------------------
