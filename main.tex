@@ -539,7 +539,7 @@ No puede:
 \item \textbf{Validator:} Usa sus datos privados y su poder de cómputo para  calcular diferencias entre lo esperado y las predicciones.
 \end{itemize}
 
-Los Data Owners se dividen en Trainers y Validators en proporciones de 70\% y 30\% respectivamente tal como se haría con un dataset para su entrenamiento y evaluación. Queda para futuros desarrollos hacer esta división emulando un K-Fold Cross-validation.
+Los Data Owners se dividen en Trainers y Validators en proporciones de 70\% y 30\% respectivamente tal como se haría con un dataset en sets de entrenamiento y test. Queda para futuros desarrollos realizar una mejora utilizando un K-Fold Cross-validation.
 
 
 \section{Model Buyer}
@@ -612,7 +612,7 @@ No puede:
 
 \subsection*{Obtención de recursos para entrenamiento}
 
-Este protocolo se encarga  de la registración de los Data Owners disponibles al servicio del Federated Aggregator, de la inicialización de la solicitud de entrenamiento del modelo, y la aceptación o declinación de dicha solicitud por parte de cada Data Owner. 
+Este protocolo se encarga  de la registración de los Data Owners disponibles al servicio del Federated Aggregator, de la inicialización de la solicitud de entrenamiento del modelo, y de la aceptación o declinación de dicha solicitud por parte de cada Data Owner. 
 
 \begin{figure}[H]
   	\centering
@@ -622,7 +622,7 @@ Este protocolo se encarga  de la registración de los Data Owners disponibles al
 
 \subsection*{Entrenamiento del modelo encriptado}
 
-El protocolo de entrenamiento encriptado, basado en la técnica de Federated Learning, define como se dará éste entrenamiento de manera distribuida, con el modelo encriptado en todo momento y, con cada Data Owner brindando sus datos locales y procesamiento.
+El protocolo de entrenamiento encriptado, basado en la técnica de Federated Learning, define como se dará éste entrenamiento de manera distribuida, con el modelo encriptado en todo momento y, con cada Data Owner brindando sus datos locales y poder de cómputo.
 
 \begin{figure}[H]
   	\centering
@@ -632,8 +632,8 @@ El protocolo de entrenamiento encriptado, basado en la técnica de Federated Lea
 
 \subsection*{Calculo de métricas seguro}
 
-El protocolo de calculo de métricas seguro fue creado debido a la incapacidad de los Data Owners de calcular la métrica de calidad del modelo por ellos mismos. Ésta limitación se da debido a que la biblitoca de Homomorphic Encryption utilizada no permite realizar productos entre números encriptados (y se necesita elevar un número encriptado al cuadrado para el calculo del MSE). Por lo que se ideó un protocolo mediante el cual, se puede calcular el MSE sin que sea el Model Buyer quien lo haga (ya que podría alterar el calculo para obtener un beneficio), pero a la vez, dandole la posibilidad de validar dicho calculo.
-El protocolo hace uso de una mecanica utilizada en Global Differential Privacy y en algunos esquemas de SMPC, la adición de "ruido" a la información que se envía a una parte en la que no se confía plenamente.
+El protocolo de calculo de métricas seguro fue creado debido a la incapacidad de los Data Owners en su rol de validador de calcular la métrica de calidad del modelo por ellos mismos. Ésta limitación existe dado que la biblitoca de Homomorphic Encryption utilizada no permite realizar productos entre números encriptados (y se necesita elevar un número encriptado al cuadrado para el calculo del MSE). Por lo que se ideó un protocolo mediante el cual, se puede computar el MSE sin que sea el Model Buyer quien lo haga (ya que podría alterar el calculo para obtener un beneficio), pero a la vez, dandole la posibilidad de validar dicho calculo.
+El protocolo hace uso de una mecanica utilizada en Global Differential Privacy y en algunos esquemas de SMPC, la adición de \"ruido\" a la información que se envía a una parte en la que no se confía plenamente.
 
 \begin{figure}[H]
   	\centering
